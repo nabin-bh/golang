@@ -109,6 +109,11 @@ func main() {
 	router.Run("localhost:8005")
 }
 
+func loginpagedesignandmake()
+{
+    return "this is login page";
+}
+
 
 // sample data for createBook
 // {
