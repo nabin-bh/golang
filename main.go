@@ -115,6 +115,11 @@ func loginpagedesignandmake()
 }
 
 
+func logoutsystem()
+{
+    return "logout success";
+}
+
 // sample data for createBook
 // {
 //   "id": "4",
