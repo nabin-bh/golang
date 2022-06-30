@@ -1,0 +1,19 @@
+<h1>{{.PageTitle}}</h1>
+
+<form action="http://localhost:80/store">
+    <label for="">Name</label><br>
+    <input type="text" name="name"> <br>
+    <label for="">Address</label><br>
+    <input type="text" name="address"> <br>
+<input type="submit">
+</form>
+
+<ul>
+    {{range .Todos}}
+        {{if .Done}}
+            <li class="done">{{.Title}}</li>
+        {{else}}
+            <li>{{.Title}}</li>
+        {{end}}
+    {{end}}
+</ul>

@@ -1,129 +1,83 @@
 package main
 
 import (
+	"database/sql"
+	"fmt"
+	"html/template"
+	"log"
 	"net/http"
-	"errors"
-	"github.com/gin-gonic/gin"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
-type book struct {
-	ID       string `json:"id"`
-	Title    string `json:"title"`
-	Author   string `json:"author"`
-	Quantity int    `json:"quantity"`
+type Todo struct {
+	Title string
+	Done  bool
 }
 
-var books = []book{
-	{ID: "1", Title: "Book 1", Author: "Author of Book 1", Quantity: 2},
-	{ID: "2", Title: "Book 2", Author: "Author of Book 2", Quantity: 5},
-	{ID: "3", Title: "Book 3", Author: "Author of Book 3", Quantity: 6},
+type TodoPageData struct {
+	PageTitle string
+	Todos     []Todo
 }
 
-func getBooks(c *gin.Context) {
-	c.IndentedJSON(http.StatusOK, books)
+type Form struct {
+	Name    string
+	Address string
 }
 
-func bookById(c *gin.Context) {
-	id := c.Param("id")
-	book, err := getBookById(id)
+func insertIntoDB() {
+	db, err := sql.Open("mysql", "root:root@tcp(127.0.0.1:8889)/demo_go")
+	defer db.Close()
 
 	if err != nil {
-		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Book not found."})
-		return
+		log.Println("hello")
+		log.Fatal(err)
 	}
 
-	c.IndentedJSON(http.StatusOK, book)
-}
+	sql := "INSERT INTO students(email, first_name, last_name) VALUES ('admin@gmail.com', 'admin','admin')"
 
-func checkoutBook(c *gin.Context) {
-	id, ok := c.GetQuery("id")
-
-	if !ok {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Missing id query parameter."})
-		return
-	}
-
-	book, err := getBookById(id)
+	res, err := db.Exec(sql)
 
 	if err != nil {
-		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Book not found."})
-		return
+		panic(err.Error())
 	}
 
-	if book.Quantity <= 0 {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Book not available."})
-		return
-	}
-
-	book.Quantity -= 1
-	c.IndentedJSON(http.StatusOK, book)
-}
-
-func returnBook(c *gin.Context) {
-	id, ok := c.GetQuery("id")
-
-	if !ok {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Missing id query parameter."})
-		return
-	}
-
-	book, err := getBookById(id)
+	lastId, err := res.LastInsertId()
 
 	if err != nil {
-		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Book not found."})
-		return
+		log.Fatal(err)
 	}
 
-	book.Quantity += 1
-	c.IndentedJSON(http.StatusOK, book)
-}
-
-func getBookById(id string) (*book, error) {
-	for i, b := range books {
-		if b.ID == id {
-			return &books[i], nil
-		}
-	}
-
-	return nil, errors.New("book not found")
-}
-
-func createBook(c *gin.Context) {
-	var newBook book
-
-	if err := c.BindJSON(&newBook); err != nil {
-		return
-	}
-
-	books = append(books, newBook)
-	c.IndentedJSON(http.StatusCreated, newBook)
+	fmt.Printf("Data inserted success in row id: %d\n", lastId)
 }
 
 func main() {
-	router := gin.Default()
-	router.GET("/books", getBooks)
-	router.GET("/books/:id", bookById)
-	router.POST("/books", createBook)
-	router.PATCH("/checkout", checkoutBook)
-	router.PATCH("/return", returnBook)
-	router.Run("localhost:8005")
+
+	tmpl := template.Must(template.ParseFiles("form.html"))
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		data := TodoPageData{
+			PageTitle: "My TODO list",
+			Todos: []Todo{
+				{Title: "Task 1", Done: false},
+				{Title: "Task 2", Done: true},
+				{Title: "Task 3", Done: true},
+			},
+		}
+		tmpl.Execute(w, data)
+	})
+
+	showpagehtml := template.Must(template.ParseFiles("Show.html"))
+	http.HandleFunc("/store", func(w http.ResponseWriter, r *http.Request) {
+		err := r.ParseForm()
+		if err != nil {
+			log.Fatal(err)
+		}
+		myvar := map[string]interface{}{
+			"name":    r.Form.Get("name"),
+			"address": r.Form.Get("address"),
+		}
+		showpagehtml.Execute(w, myvar)
+	})
+
+	http.ListenAndServe(":80", nil)
 }
-
-func loginpagedesignandmake()
-{
-    return "this is login page";
-}
-
-
-func logoutsystem()
-{
-    return "logout success";
-}
-
-// sample data for createBook
-// {
-//   "id": "4",
-//   "title": "Book 4",
-//   "author": "Author of Book 4",
-//   "quantity": 2
-// }
