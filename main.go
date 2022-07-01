@@ -1,129 +1,82 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
-	"errors"
-	"github.com/gin-gonic/gin"
+
+	h "helpers"
 )
 
-type book struct {
-	ID       string `json:"id"`
-	Title    string `json:"title"`
-	Author   string `json:"author"`
-	Quantity int    `json:"quantity"`
-}
-
-var books = []book{
-	{ID: "1", Title: "Book 1", Author: "Author of Book 1", Quantity: 2},
-	{ID: "2", Title: "Book 2", Author: "Author of Book 2", Quantity: 5},
-	{ID: "3", Title: "Book 3", Author: "Author of Book 3", Quantity: 6},
-}
-
-func getBooks(c *gin.Context) {
-	c.IndentedJSON(http.StatusOK, books)
-}
-
-func bookById(c *gin.Context) {
-	id := c.Param("id")
-	book, err := getBookById(id)
-
-	if err != nil {
-		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Book not found."})
-		return
-	}
-
-	c.IndentedJSON(http.StatusOK, book)
-}
-
-func checkoutBook(c *gin.Context) {
-	id, ok := c.GetQuery("id")
-
-	if !ok {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Missing id query parameter."})
-		return
-	}
-
-	book, err := getBookById(id)
-
-	if err != nil {
-		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Book not found."})
-		return
-	}
-
-	if book.Quantity <= 0 {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Book not available."})
-		return
-	}
-
-	book.Quantity -= 1
-	c.IndentedJSON(http.StatusOK, book)
-}
-
-func returnBook(c *gin.Context) {
-	id, ok := c.GetQuery("id")
-
-	if !ok {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Missing id query parameter."})
-		return
-	}
-
-	book, err := getBookById(id)
-
-	if err != nil {
-		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Book not found."})
-		return
-	}
-
-	book.Quantity += 1
-	c.IndentedJSON(http.StatusOK, book)
-}
-
-func getBookById(id string) (*book, error) {
-	for i, b := range books {
-		if b.ID == id {
-			return &books[i], nil
-		}
-	}
-
-	return nil, errors.New("book not found")
-}
-
-func createBook(c *gin.Context) {
-	var newBook book
-
-	if err := c.BindJSON(&newBook); err != nil {
-		return
-	}
-
-	books = append(books, newBook)
-	c.IndentedJSON(http.StatusCreated, newBook)
-}
-
 func main() {
-	router := gin.Default()
-	router.GET("/books", getBooks)
-	router.GET("/books/:id", bookById)
-	router.POST("/books", createBook)
-	router.PATCH("/checkout", checkoutBook)
-	router.PATCH("/return", returnBook)
-	router.Run("localhost:8005")
+
+	uName, email, pwd, pwdConfirm := "", "", "", ""
+
+	mux := http.NewServeMux()
+
+	// Signup
+	mux.HandleFunc("/signup", func(w http.ResponseWriter, r *http.Request) {
+		r.ParseForm()
+
+		/*
+			// Available for testing.
+			for key, value := range r.Form {
+				fmt.Printf("%s = %s\n", key, value)
+			}
+		*/
+
+		// Data from the form
+		uName = r.FormValue("username")
+		// Data from the form
+		email = r.FormValue("email")
+		// Data from the form
+		pwd = r.FormValue("password")
+		// Data from the form
+		pwdConfirm = r.FormValue("confirm")
+
+		// Empty data checking
+		uNameCheck := h.IsEmpty(uName)
+		emailCheck := h.IsEmpty(email)
+		pwdCheck := h.IsEmpty(pwd)
+		pwdConfirmCheck := h.IsEmpty(pwdConfirm)
+
+		if uNameCheck || emailCheck || pwdCheck || pwdConfirmCheck {
+			fmt.Fprintf(w, "ErrorCode is -10 : There is empty data.")
+			return
+		}
+
+		if pwd == pwdConfirm {
+			// Save to database (username, email and password)
+			fmt.Fprintln(w, "Registration successful.")
+		} else {
+			fmt.Fprintln(w, "Password information must be the same.")
+		}
+	})
+
+	// Login
+	mux.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
+		r.ParseForm()
+
+		email = r.FormValue("email")  // Data from the form
+		pwd = r.FormValue("password") // Data from the form
+
+		// Empty data checking
+		emailCheck := h.IsEmpty(email)
+		pwdCheck := h.IsEmpty(pwd)
+
+		if emailCheck || pwdCheck {
+			fmt.Fprintf(w, "ErrorCode is -10 : There is empty data.")
+			return
+		}
+
+		dbPwd := "1234!*."                   // DB simulation
+		dbEmail := "cihan.ozhan@hotmail.com" // DB simulation
+
+		if email == dbEmail && pwd == dbPwd {
+			fmt.Fprintln(w, "Login succesful!")
+		} else {
+			fmt.Fprintln(w, "Login failed!")
+		}
+	})
+
+	http.ListenAndServe(":8080", mux)
 }
-
-func loginpagedesignandmake()
-{
-    return "this is login page";
-}
-
-
-func logoutsystem()
-{
-    return "logout success";
-}
-
-// sample data for createBook
-// {
-//   "id": "4",
-//   "title": "Book 4",
-//   "author": "Author of Book 4",
-//   "quantity": 2
-// }
