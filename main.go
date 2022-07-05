@@ -12,7 +12,7 @@ import (
 func main() {
 	r := gin.Default()
 	db := models.SetupDB()
-	db.AutoMigrate(&models.Task{})
+	db.AutoMigrate(&models.Book{})
 	r.Use(func(c *gin.Context) {
 		c.Set("db", db)
 	})

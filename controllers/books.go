@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"models"
+	"golang/models"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -21,7 +21,7 @@ type UpdateTaskInput struct {
 // Get all tasks
 func FindTasks(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
-	var tasks []models.Task
+	var tasks []models.Book
 	db.Find(&tasks)
 	c.JSON(http.StatusOK, gin.H{"data": tasks})
 }
@@ -36,7 +36,7 @@ func CreateTask(c *gin.Context) {
 		return
 	}
 	// Create task
-	task := models.Task{AssingedTo: input.AssingedTo, Task: input.Task}
+	task := models.Book{AssingedTo: input.AssingedTo, Task: input.Task}
 	db := c.MustGet("db").(*gorm.DB)
 	db.Create(&task)
 	c.JSON(http.StatusOK, gin.H{"data": task})
@@ -45,7 +45,7 @@ func CreateTask(c *gin.Context) {
 // GET /tasks/:id
 // Find a task
 func FindTask(c *gin.Context) { // Get model if exist
-	var task models.Task
+	var task models.Book
 	db := c.MustGet("db").(*gorm.DB)
 	if err := db.Where("id = ?", c.Param("id")).First(&task).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
@@ -59,7 +59,7 @@ func FindTask(c *gin.Context) { // Get model if exist
 func UpdateTask(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	// Get model if exist
-	var task models.Task
+	var task models.Book
 	if err := db.Where("id = ?", c.Param("id")).First(&task).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
 		return
@@ -79,7 +79,7 @@ func UpdateTask(c *gin.Context) {
 func DeleteTask(c *gin.Context) {
 	// Get model if exist
 	db := c.MustGet("db").(*gorm.DB)
-	var book models.Task
+	var book models.Book
 	if err := db.Where("id = ?", c.Param("id")).First(&book).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
 		return
