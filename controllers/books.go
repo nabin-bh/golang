@@ -8,9 +8,12 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-type CreateTaskInput struct {
-	AssingedTo string `json:"assignedTo"`
-	Task       string `json:"task"`
+type CreateBookInput struct {
+	Name        string  `json:"name"`
+	Category    string  `json:"category"`
+	Author      string  `json:"author"`
+	Description string  `json:"description"`
+	Price       float32 `json:"price"`
 }
 type UpdateTaskInput struct {
 	AssingedTo string `json:"assignedTo"`
@@ -26,20 +29,28 @@ func FindTasks(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": tasks})
 }
 
-// POST /tasks
-// Create new task
-func CreateTask(c *gin.Context) {
+// POST /book
+// Create new book
+func CreateBook(c *gin.Context) {
 	// Validate input
-	var input CreateTaskInput
+	var input CreateBookInput
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	// Create task
-	task := models.Book{AssingedTo: input.AssingedTo, Task: input.Task}
+
+	// Create book
+	book := models.Book{
+		Name:        input.Name,
+		Category:    input.Category,
+		Author:      input.Author,
+		Description: input.Description,
+		Price:       input.Price,
+	}
+
 	db := c.MustGet("db").(*gorm.DB)
-	db.Create(&task)
-	c.JSON(http.StatusOK, gin.H{"data": task})
+	db.Create(&book)
+	c.JSON(http.StatusOK, gin.H{"data": book})
 }
 
 // GET /tasks/:id

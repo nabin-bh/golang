@@ -19,10 +19,10 @@ func main() {
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"data": "hello world"})
 	})
-	r.GET("/tasks", controllers.FindTasks)
-	r.POST("/tasks", controllers.CreateTask)
-	r.GET("/tasks/:id", controllers.FindTask)
-	r.PATCH("/tasks/:id", controllers.UpdateTask)
-	r.DELETE("tasks/:id", controllers.DeleteTask)
+	r.GET("/books", controllers.FindTasks)
+	r.POST("/book/store", controllers.CreateBook)
+	r.GET("/book/:id", controllers.FindTask)
+	r.PATCH("/book/:id", controllers.UpdateTask)
+	r.DELETE("book/:id", controllers.DeleteTask)
 	r.Run()
 }
