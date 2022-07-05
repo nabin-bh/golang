@@ -9,6 +9,7 @@ export default function Navbar() {
                 Book Pasal
                 </div>
             </div>
+            
             <div className="nav-btn">
                 <label for="nav-check">
                 <span></span>
@@ -19,8 +20,7 @@ export default function Navbar() {
             
             <div className="nav-links">
                 <a href="" target="_blank">Book</a>
-                <a href="" target="_blank">Category</a>
-                <a href="" target="_blank">LinkedIn</a>
+                <a href="" target="_blank">Category</a> 
                 <a href="" target="_blank">Login</a>
                 <a href="" target="_blank">Register</a>
             </div>

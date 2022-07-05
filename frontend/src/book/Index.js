@@ -1,96 +1,70 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 function Index() {
     const [loading, setLoading] = useState(false)
-    const [formData, setFormData] = useState({
-        name : "",
-        category : "",
-        author : "",
-        price : 0.00,
-        description : ""
-    })
+    const [books, setBooks] = useState([])
 
-    const handleChange = e => {
-        setFormData({
-          ...formData,
-          [e.target.name]: e.target.value,
-        })
+    useEffect(()=> {
+        getBookList()
+    }, [])
 
-        console.log(formData)
-      }
-
-
-    let saveBook = () => {
+    function getBookList(){
         setLoading(true)
-        fetch('http://localhost:8080/books/store', {
-            method: 'POST',
+        fetch('http://localhost:8080/books', { 
             mode: 'no-cors',
             headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        }).then(res => res.json())
-            .then(res => {
-                console.log(res)
-
-                setLoading(false)
-            }).catch(() => {
+                // 'Accept': 'application/json, text/plain, */*',
+                // 'Content-Type': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(res => {
+            console.log(res)
+            // setBooks(res)
+            setLoading(false)
+        })
+        .catch(() => {
             setLoading(false)
         });
-
     }
+    
     return (
         <div className="container">
             <center>{ loading ? "loading...." : '' }</center>
             <div className="row">
-                <div className="col-sm-4" ></div>
-                <div className="col-sm-4 col-offset-4">
-                    <label htmlFor="">Name: </label>
-                    <input type="text" name="name" className="form-control" onInput={handleChange}/>
-                </div>
-            </div>
-            <div className="row">
-                <div className="col-sm-4" ></div>
-                <div className="col-sm-4 col-offset-4">
-                    <label htmlFor="">Category: </label>
-                    <select type="text" name="category" onChange={handleChange} className="form-control">
-                        <option value="">Select Category</option>
-                        <option>Fantasy</option>
-                        <option>Poem</option>
-                        <option>Contemporary</option>
-                        <option>Sci-Fi</option>
-                    </select>
-                </div>
-            </div>
-            <div className="row">
-                <div className="col-sm-4" ></div>
-                <div className="col-sm-4 col-offset-4">
-                    <label htmlFor="">Author: </label>
-                    <input type="text" name="author" onChange={handleChange} className="form-control"/>
-                </div>
-            </div>
-
-            <div className="row">
-                <div className="col-sm-4" ></div>
-                <div className="col-sm-4 col-offset-4">
-                    <label htmlFor="">Price: </label>
-                    <input type="number" name="price" onChange={handleChange} className="form-control"/>
-                </div>
-            </div>
-            <div className="row">
-                <div className="col-sm-4" ></div>
-                <div className="col-sm-4 col-offset-4">
-                    <label htmlFor="">Description: </label>
-                    <input type="text" name="description" onChange={handleChange} className="form-control"/>
-                </div>
-            </div>
-            <div className="row">
-                <div className="col-sm-4" ></div>
-                <div className="col-sm-4 col-offset-4">
-                    <br/>
-                    <button className="btn btn-success" onClick={() => saveBook() }>Save Book</button>
-                </div>
+                 <div className="col-sm-12">
+                    <table className="table table-sm table-stripped">
+                        <thead>
+                        <tr>
+                            <th>SN</th>
+                            <th>Name</th>
+                            <th>Author</th>
+                            <th>Price</th>
+                            <th>Descritpiom</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {
+                            books.map((book, index)=> {
+                                return (
+                                    <tr>
+                                        <td>{index}</td>
+                                        <td>{book.name}</td>
+                                        <td>{book.author}</td>
+                                        <td>{book.price}</td>
+                                        <td>{book.description}</td>
+                                        <td>
+                                            <button>Edit</button>
+                                            <button>Delete</button>
+                                        </td>
+                                    </tr>
+                                )
+                            })
+                        }
+                        </tbody> 
+                    </table>
+                 </div>
             </div>
         </div>
     );

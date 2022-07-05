@@ -9,11 +9,11 @@ import (
 )
 
 type CreateBookInput struct {
-	Name        string  `json:"name"`
-	Category    string  `json:"category"`
-	Author      string  `json:"author"`
-	Description string  `json:"description"`
-	Price       float64 `json:"price"`
+	Name        string `json:"name"`
+	Category    string `json:"category"`
+	Author      string `json:"author"`
+	Description string `json:"description"`
+	Price       string `json:"price"`
 }
 
 // type UpdateTaskInput struct {
@@ -21,7 +21,7 @@ type CreateBookInput struct {
 // 	Task       string `json:"task"`
 // }
 
-func FindTasks(c *gin.Context) {
+func BookList(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	var tasks []models.Book
 	db.Find(&tasks)
