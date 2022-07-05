@@ -6,5 +6,5 @@ type Book struct {
 	Category    string  `json:"category"`
 	Author      string  `json:"author"`
 	Description string  `json:"description"`
-	Price       float32 `json:"price"`
+	Price       float64 `json:"price"`
 }

@@ -13,7 +13,7 @@ func SetupDB() *gorm.DB {
 	PASS := "root"
 	HOST := "localhost"
 	PORT := "8889"
-	DBNAME := "bookCRUD"
+	DBNAME := "book_pasal"
 	URL := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", USER, PASS, HOST, PORT, DBNAME)
 	db, err := gorm.Open("mysql", URL)
 	if err != nil {

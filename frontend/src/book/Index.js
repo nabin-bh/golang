@@ -6,7 +6,7 @@ function Index() {
         name : "",
         category : "",
         author : "",
-        price : "",
+        price : 0.00,
         description : ""
     })
 
@@ -22,7 +22,7 @@ function Index() {
 
     let saveBook = () => {
         setLoading(true)
-        fetch('http://localhost:8080/book/store', {
+        fetch('http://localhost:8080/books/store', {
             method: 'POST',
             mode: 'no-cors',
             headers: {
