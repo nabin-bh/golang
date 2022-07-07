@@ -3,14 +3,16 @@ package main
 import (
 	"net/http"
 
-	"github.com/gin-gonic/gin"
-
 	"golang/controllers"
 	"golang/models"
+
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	r := gin.Default()
+	r.Use(cors.Default())
 	db := models.SetupDB()
 	db.AutoMigrate(&models.Book{})
 	r.Use(func(c *gin.Context) {
@@ -24,5 +26,6 @@ func main() {
 	// r.GET("/book/:id", controllers.FindTask)
 	// r.PATCH("/book/:id", controllers.UpdateTask)
 	// r.DELETE("book/:id", controllers.DeleteTask)
-	r.Run()
+
+	r.Run(":8080")
 }

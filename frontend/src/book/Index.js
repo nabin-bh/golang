@@ -1,3 +1,4 @@
+import axios from "axios";
 import {useEffect, useState} from "react";
 
 function Index() {
@@ -10,22 +11,14 @@ function Index() {
 
     function getBookList(){
         setLoading(true)
-        fetch('http://localhost:8080/books', { 
-            mode: 'no-cors',
-            headers: {
-                // 'Accept': 'application/json, text/plain, */*',
-                // 'Content-Type': 'application/json'
+
+        axios.get("http://localhost:8080/books").then(response => {
+            console.log(response.data)
+            setBooks(response.data)
+            if(response.status == 200){
+                
             }
         })
-        .then(res => res.json())
-        .then(res => {
-            console.log(res)
-            // setBooks(res)
-            setLoading(false)
-        })
-        .catch(() => {
-            setLoading(false)
-        });
     }
     
     return (
@@ -48,7 +41,7 @@ function Index() {
                         {
                             books.map((book, index)=> {
                                 return (
-                                    <tr>
+                                    <tr key={book.id}>
                                         <td>{index}</td>
                                         <td>{book.name}</td>
                                         <td>{book.author}</td>

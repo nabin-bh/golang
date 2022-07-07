@@ -1,4 +1,5 @@
 import {useState} from "react";
+import axios from "axios";
 
 function Create() {
     const [loading, setLoading] = useState(false)
@@ -22,17 +23,30 @@ function Create() {
 
     let saveBook = () => {
         setLoading(true)
+        let datat = formData
+
         fetch('http://localhost:8080/books/store', {
             method: 'POST',
             mode: 'no-cors',
+            json: true,
             headers: {
-                'Accept': 'application/json, text/plain, */*',
+                "Access-Control-Allow-Origin": "*",
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(formData)
-        }).then(res => res.json())
+            body: JSON.stringify(datat)
+        }).then(res => {
+            console.log(res);
+            return  res.json();
+        })
             .then(res => {
                 console.log(res)
+                setFormData({
+                    name : "",
+                    category : "",
+                    author : "",
+                    price : 0.00,
+                    description : ""
+                })
 
                 setLoading(false)
             }).catch(() => {
@@ -47,14 +61,14 @@ function Create() {
                 <div className="col-sm-4" ></div>
                 <div className="col-sm-4 col-offset-4">
                     <label htmlFor="">Name: </label>
-                    <input type="text" name="name" className="form-control" onInput={handleChange}/>
+                    <input type="text" name="name" value={formData.name} className="form-control" onInput={handleChange}/>
                 </div>
             </div>
             <div className="row">
                 <div className="col-sm-4" ></div>
                 <div className="col-sm-4 col-offset-4">
                     <label htmlFor="">Category: </label>
-                    <select type="text" name="category" onChange={handleChange} className="form-control">
+                    <select type="text" name="category" value={formData.category} onChange={handleChange} className="form-control">
                         <option value="">Select Category</option>
                         <option>Fantasy</option>
                         <option>Poem</option>
@@ -67,7 +81,7 @@ function Create() {
                 <div className="col-sm-4" ></div>
                 <div className="col-sm-4 col-offset-4">
                     <label htmlFor="">Author: </label>
-                    <input type="text" name="author" onChange={handleChange} className="form-control"/>
+                    <input type="text" name="author" value={formData.author} onChange={handleChange} className="form-control"/>
                 </div>
             </div>
 
@@ -75,14 +89,14 @@ function Create() {
                 <div className="col-sm-4" ></div>
                 <div className="col-sm-4 col-offset-4">
                     <label htmlFor="">Price: </label>
-                    <input type="number" name="price" onChange={handleChange} className="form-control"/>
+                    <input type="number" name="price" value={formData.price} onChange={handleChange} className="form-control"/>
                 </div>
             </div>
             <div className="row">
                 <div className="col-sm-4" ></div>
                 <div className="col-sm-4 col-offset-4">
                     <label htmlFor="">Description: </label>
-                    <input type="text" name="description" onChange={handleChange} className="form-control"/>
+                    <input type="text" name="description" value={formData.description} onChange={handleChange} className="form-control"/>
                 </div>
             </div>
             <div className="row">

@@ -25,7 +25,7 @@ func BookList(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	var tasks []models.Book
 	db.Find(&tasks)
-	c.JSON(http.StatusOK, gin.H{"data": tasks})
+	c.JSON(http.StatusOK, tasks)
 }
 
 func CreateBook(c *gin.Context) {
@@ -45,7 +45,8 @@ func CreateBook(c *gin.Context) {
 
 	db := c.MustGet("db").(*gorm.DB)
 	db.Create(&book)
-	c.JSON(http.StatusOK, gin.H{"data": book})
+
+	c.JSON(http.StatusOK, book)
 }
 
 // GET /tasks/:id
