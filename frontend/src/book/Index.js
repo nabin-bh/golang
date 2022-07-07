@@ -15,9 +15,7 @@ function Index() {
         axios.get("http://localhost:8080/books").then(response => {
             console.log(response.data)
             setBooks(response.data)
-            if(response.status == 200){
-                
-            }
+            setLoading(false)
         })
     }
     
