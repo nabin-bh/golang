@@ -10,22 +10,22 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import Edit from './book/Edit';
+import Details from './home/Details';
 
 
 function App() {
   return (
     <div className="App"> 
-     <Navbar />
+     
      <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<Home />}>
+     <Navbar />
+    <Routes> 
         <Route index element={<Home />} />
-        <Route path="books" element={<Index />}>
-          {/* <Route path=":teamId" element={<Team />} /> */}
-          <Route path="create" element={<Create />} />
-          {/* <Route index element={<LeagueStandings />} /> */}
-        </Route>
-      </Route>
+        <Route path="books" element={<Index />} />
+        <Route path="book/edit/:bookId" element={ <Edit />} />
+        <Route path="book/details/:bookId" element={ <Details />} />
+        <Route path="book/create" element={<Create />} />
     </Routes>
   </BrowserRouter>
       {/*

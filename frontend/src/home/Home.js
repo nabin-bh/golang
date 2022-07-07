@@ -1,5 +1,6 @@
 import axios from "axios";
 import {useEffect, useState} from "react";
+import { Link } from "react-router-dom";
 
 function Home() {
     const [loading, setLoading] = useState(false)
@@ -29,9 +30,9 @@ function Home() {
                             return (
                                 <div className="col hp" key={book.id}>
                                 <div className="card h-100 shadow-sm">
-                                    <a href="#">
+                                    <Link to={`book/details/${book.id}`} >
                                     <img src="https://res.cloudinary.com/jerrick/image/upload/v1610450296/5ffd857883f7a1001c77a8bf.jpg" className="card-img-top" alt="product.title" />
-                                    </a>
+                                    </Link>
             
                                     <div className="label-top shadow-sm">
                                     <a className="text-white" href="#">{ book.category }</a>

@@ -16,10 +16,14 @@ type CreateBookInput struct {
 	Price       string `json:"price"`
 }
 
-// type UpdateTaskInput struct {
-// 	AssingedTo string `json:"assignedTo"`
-// 	Task       string `json:"task"`
-// }
+type UpdateBookInput struct {
+	ID          int    `json:"id"`
+	Name        string `json:"name"`
+	Category    string `json:"category"`
+	Author      string `json:"author"`
+	Description string `json:"description"`
+	Price       string `json:"price"`
+}
 
 func BookList(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
@@ -49,37 +53,33 @@ func CreateBook(c *gin.Context) {
 	c.JSON(http.StatusOK, book)
 }
 
-// GET /tasks/:id
-// Find a task
-// func FindTask(c *gin.Context) { // Get model if exist
-// 	var task models.Book
-// 	db := c.MustGet("db").(*gorm.DB)
-// 	if err := db.Where("id = ?", c.Param("id")).First(&task).Error; err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
-// 		return
-// 	}
-// 	c.JSON(http.StatusOK, gin.H{"data": task})
-// }
+func FindBook(c *gin.Context) { // Get model if exist
+	var book models.Book
+	db := c.MustGet("db").(*gorm.DB)
+	if err := db.Where("id = ?", c.Param("id")).First(&book).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		return
+	}
+	c.JSON(http.StatusOK, book)
+}
 
-// // PATCH /tasks/:id
-// // Update a task
-// func UpdateTask(c *gin.Context) {
-// 	db := c.MustGet("db").(*gorm.DB)
-// 	// Get model if exist
-// 	var task models.Book
-// 	if err := db.Where("id = ?", c.Param("id")).First(&task).Error; err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
-// 		return
-// 	}
-// 	// Validate input
-// 	var input UpdateTaskInput
-// 	if err := c.ShouldBindJSON(&input); err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-// 		return
-// 	}
-// 	db.Model(&task).Updates(input)
-// 	c.JSON(http.StatusOK, gin.H{"data": task})
-// }
+func UpdateBook(c *gin.Context) {
+	db := c.MustGet("db").(*gorm.DB)
+	// Get model if exist
+	var task models.Book
+	if err := db.Where("id = ?", c.Param("id")).First(&task).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		return
+	}
+	// Validate input
+	var input UpdateBookInput
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	db.Model(&task).Updates(input)
+	c.JSON(http.StatusOK, task)
+}
 
 // // DELETE /tasks/:id
 // // Delete a task

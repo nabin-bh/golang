@@ -1,5 +1,6 @@
 import axios from "axios";
 import {useEffect, useState} from "react";
+import { Link } from "react-router-dom";
 
 function Index() {
     const [loading, setLoading] = useState(false)
@@ -22,6 +23,7 @@ function Index() {
     return (
         <div className="container">
             <center>{ loading ? "loading...." : '' }</center>
+            <h1> Book List <Link to="/book/create" className="btn btn-sm btn-primary">Create Book</Link>   </h1>
             <div className="row">
                  <div className="col-sm-12">
                     <table className="table table-sm table-stripped">
@@ -46,7 +48,7 @@ function Index() {
                                         <td>{book.price}</td>
                                         <td>{book.description}</td>
                                         <td>
-                                            <button>Edit</button>
+                                            <Link to={`/book/edit/${book.id}`} >Edit</Link>
                                             <button>Delete</button>
                                         </td>
                                     </tr>

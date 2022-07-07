@@ -1,4 +1,5 @@
 import {useState} from "react";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
     return (
@@ -19,7 +20,8 @@ export default function Navbar() {
             </div>
             
             <div className="nav-links">
-                <a href="" target="_blank">Book</a>
+                <Link to="/">Home</Link>
+                <Link to="/books">Book</Link> 
                 <a href="" target="_blank">Category</a> 
                 <a href="" target="_blank">Login</a>
                 <a href="" target="_blank">Register</a>

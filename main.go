@@ -23,8 +23,8 @@ func main() {
 	})
 	r.GET("/books", controllers.BookList)
 	r.POST("/books/store", controllers.CreateBook)
-	// r.GET("/book/:id", controllers.FindTask)
-	// r.PATCH("/book/:id", controllers.UpdateTask)
+	r.GET("/book/edit/:id", controllers.FindBook)
+	r.POST("/book/update/:id", controllers.UpdateBook)
 	// r.DELETE("book/:id", controllers.DeleteTask)
 
 	r.Run(":8080")
