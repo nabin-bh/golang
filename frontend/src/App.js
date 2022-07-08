@@ -12,6 +12,9 @@ import {
 } from "react-router-dom";
 import Edit from './book/Edit';
 import Details from './home/Details';
+import Login from './login/Login';
+import Register from './login/Register';
+import Dashboard from './dashboard/Dashboard';
 
 
 function App() {
@@ -22,10 +25,15 @@ function App() {
      <Navbar />
     <Routes> 
         <Route index element={<Home />} />
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
         <Route path="books" element={<Index />} />
         <Route path="book/edit/:bookId" element={ <Edit />} />
         <Route path="book/details/:bookId" element={ <Details />} />
         <Route path="book/create" element={<Create />} />
+
+
+        <Route path="dashboard" element={<Dashboard />} />
     </Routes>
   </BrowserRouter>
       {/*

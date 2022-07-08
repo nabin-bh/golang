@@ -23,8 +23,8 @@ export default function Navbar() {
                 <Link to="/">Home</Link>
                 <Link to="/books">Book</Link> 
                 <a href="" target="_blank">Category</a> 
-                <a href="" target="_blank">Login</a>
-                <a href="" target="_blank">Register</a>
+                <Link to="/login">Login</Link> 
+                <Link to="/register">Register</Link>  
             </div>
         </div>
     )
