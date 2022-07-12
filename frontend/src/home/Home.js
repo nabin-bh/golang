@@ -1,9 +1,15 @@
 import axios from "axios";
 import {useEffect, useState} from "react";
+import { Link } from "react-router-dom";
 
-function Home() {
+function Home( {setCartP, ...props} ) {
     const [loading, setLoading] = useState(false)
     const [books, setBooks] = useState([])
+
+    function addToCart(){
+        let count = props.cart + 1
+        setCartP(count)
+      }
 
     useEffect(()=> {
         getBookList()
@@ -29,9 +35,9 @@ function Home() {
                             return (
                                 <div className="col hp" key={book.id}>
                                 <div className="card h-100 shadow-sm">
-                                    <a href="#">
+                                    <Link to={`book/details/${book.id}`} >
                                     <img src="https://res.cloudinary.com/jerrick/image/upload/v1610450296/5ffd857883f7a1001c77a8bf.jpg" className="card-img-top" alt="product.title" />
-                                    </a>
+                                    </Link>
             
                                     <div className="label-top shadow-sm">
                                     <a className="text-white" href="#">{ book.category }</a>
@@ -48,7 +54,7 @@ function Home() {
             
                                     <div className="d-grid gap-2 my-4">
             
-                                        <a href="#" className="btn btn-warning bold-btn">add to cart</a>
+                                        <a href="#" onClick={addToCart} className="btn btn-warning bold-btn">add to cart</a>
             
                                     </div>
                                     <div className="clearfix mb-1">

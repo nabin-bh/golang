@@ -1,15 +1,34 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 
-function Create() {
+function Edit() {
     const [loading, setLoading] = useState(false)
     const [formData, setFormData] = useState({
+        id : 0,
         name : "",
         category : "",
         author : "",
         price : 0.00,
         description : ""
     })
+
+    let navigate = useNavigate();
+
+    const params = useParams();
+
+    useEffect(()=> {
+        getBook()
+    }, [])
+
+    function getBook(){
+        setLoading(true)
+        axios.get("http://localhost:8080/book/edit/"+params.bookId).then(response => {
+            console.log(response.data)
+            setFormData(response.data)
+            setLoading(false)
+        })
+    }
 
     const handleChange = e => {
         setFormData({
@@ -21,12 +40,14 @@ function Create() {
       }
 
 
-    let saveBook = () => {
+    let updateBook = () => {
         setLoading(true)
         let datat = formData
+       let bookID = params.bookId
+       console.log(datat)
 
-        fetch('http://localhost:8080/books/store', {
-            method: 'POST',
+        fetch("http://localhost:8080/book/update/"+bookID, {
+            method: 'post',
             mode: 'no-cors',
             json: true,
             headers: {
@@ -35,19 +56,14 @@ function Create() {
             },
             body: JSON.stringify(datat)
         }).then(res => {
+
             console.log(res);
+            navigate("/books");
             return  res.json();
         })
             .then(res => {
                 console.log(res)
-                setFormData({
-                    name : "",
-                    category : "",
-                    author : "",
-                    price : 0.00,
-                    description : ""
-                })
-
+                
                 setLoading(false)
             }).catch(() => {
             setLoading(false)
@@ -57,7 +73,7 @@ function Create() {
     return (
         <div className="container">
             <center>{ loading ? "loading...." : '' }</center>
-            <h1 align="center">Create Book</h1>
+            <h1 align="center">Book Details</h1>
             <div className="row">
                 <div className="col-sm-4" ></div>
                 <div className="col-sm-4 col-offset-4">
@@ -104,11 +120,11 @@ function Create() {
                 <div className="col-sm-4" ></div>
                 <div className="col-sm-4 col-offset-4">
                     <br/>
-                    <button className="btn btn-success" onClick={() => saveBook() }>Save Book</button>
+                    <button className="btn btn-success" onClick={() => updateBook() }>Save Book</button>
                 </div>
             </div>
         </div>
     );
 }
 
-export default Create;
+export default Edit;
