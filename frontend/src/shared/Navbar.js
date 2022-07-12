@@ -1,12 +1,12 @@
 import {useState} from "react";
 import { Link } from "react-router-dom";
 
-export default function Navbar() {
+export default function Navbar(props) {
     return (
         <div className="nav">
             <input type="checkbox" id="nav-check"/>
             <div className="nav-header">
-                <div className="nav-title">
+                <div className="nav-title gradient-text">
                 Book Pasal
                 </div>
             </div>
@@ -25,6 +25,8 @@ export default function Navbar() {
                 <a href="" target="_blank">Category</a> 
                 <Link to="/login">Login</Link> 
                 <Link to="/register">Register</Link>  
+
+                <Link to="/cart" className="float-end">Cart <span className="badge bg-primary">{props.cartCount}</span></Link>  
             </div>
         </div>
     )

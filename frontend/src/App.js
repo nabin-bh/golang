@@ -15,23 +15,28 @@ import Details from './home/Details';
 import Login from './login/Login';
 import Register from './login/Register';
 import Dashboard from './dashboard/Dashboard';
+import Cart from './cart/Cart';
+import { useState } from 'react';
 
 
 function App() {
-    
+
+  const [cart, setCart] = useState(0)
+
   return (
     <div className="App"> 
      
      <BrowserRouter>
-     <Navbar />
+     <Navbar cart={cart} cartCount={cart} />
     <Routes> 
-        <Route index element={<Home />} />
+        <Route index setCartP={setCart} element={<Home />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="books" element={<Index />} />
         <Route path="book/edit/:bookId" element={ <Edit />} />
         <Route path="book/details/:bookId" element={ <Details />} />
         <Route path="book/create" element={<Create />} />
+        <Route path="cart"  element={<Cart />} />
 
 
         <Route path="dashboard" element={<Dashboard />} />
