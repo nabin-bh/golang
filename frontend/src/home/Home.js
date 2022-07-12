@@ -2,9 +2,14 @@ import axios from "axios";
 import {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 
-function Home() {
+function Home( {setCartP, ...props} ) {
     const [loading, setLoading] = useState(false)
     const [books, setBooks] = useState([])
+
+    function addToCart(){
+        let count = props.cart + 1
+        setCartP(count)
+      }
 
     useEffect(()=> {
         getBookList()
@@ -49,7 +54,7 @@ function Home() {
             
                                     <div className="d-grid gap-2 my-4">
             
-                                        <a href="#" className="btn btn-warning bold-btn">add to cart</a>
+                                        <a href="#" onClick={addToCart} className="btn btn-warning bold-btn">add to cart</a>
             
                                     </div>
                                     <div className="clearfix mb-1">

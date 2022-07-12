@@ -73,7 +73,7 @@ function Details() {
     return (
         <div className="container">
             <center>{ loading ? "loading...." : '' }</center>
-            <h1 align="center">Edit Book</h1> 
+          
             <div className="container">
 	        <div className="heading-section">
 	            <h2>Product Details</h2>
