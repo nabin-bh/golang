@@ -81,16 +81,14 @@ func UpdateBook(c *gin.Context) {
 	c.JSON(http.StatusOK, task)
 }
 
-// // DELETE /tasks/:id
-// // Delete a task
-// func DeleteTask(c *gin.Context) {
-// 	// Get model if exist
-// 	db := c.MustGet("db").(*gorm.DB)
-// 	var book models.Book
-// 	if err := db.Where("id = ?", c.Param("id")).First(&book).Error; err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
-// 		return
-// 	}
-// 	db.Delete(&book)
-// 	c.JSON(http.StatusOK, gin.H{"data": true})
-// }
+func DeleteBook(c *gin.Context) {
+	// Get model if exist
+	db := c.MustGet("db").(*gorm.DB)
+	var book models.Book
+	if err := db.Where("id = ?", c.Param("id")).First(&book).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		return
+	}
+	db.Delete(&book)
+	c.JSON(http.StatusOK, true)
+}
