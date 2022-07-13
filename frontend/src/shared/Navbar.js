@@ -26,7 +26,7 @@ export default function Navbar(props) {
                 <Link to="/login">Login</Link> 
                 <Link to="/register">Register</Link>  
 
-                <Link to="/cart" className="float-end">Cart <span className="badge bg-primary">{props.cartCount}</span></Link>  
+                <Link to="/cart" className="float-end">Cart <span className="badge bg-primary">{props.cart.length}</span></Link>  
             </div>
         </div>
     )

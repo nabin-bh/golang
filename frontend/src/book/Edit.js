@@ -77,14 +77,14 @@ function Edit() {
             <div className="row">
                 <div className="col-sm-4" ></div>
                 <div className="col-sm-4 col-offset-4">
-                    <label htmlFor="">Name: </label>
+                    <label >Name: </label>
                     <input type="text" name="name" value={formData.name} className="form-control" onInput={handleChange}/>
                 </div>
             </div>
             <div className="row">
                 <div className="col-sm-4" ></div>
                 <div className="col-sm-4 col-offset-4">
-                    <label htmlFor="">Category: </label>
+                    <label >Category: </label>
                     <select type="text" name="category" value={formData.category} onChange={handleChange} className="form-control">
                         <option value="">Select Category</option>
                         <option>Fantasy</option>
@@ -97,7 +97,7 @@ function Edit() {
             <div className="row">
                 <div className="col-sm-4" ></div>
                 <div className="col-sm-4 col-offset-4">
-                    <label htmlFor="">Author: </label>
+                    <label >Author: </label>
                     <input type="text" name="author" value={formData.author} onChange={handleChange} className="form-control"/>
                 </div>
             </div>
@@ -105,14 +105,14 @@ function Edit() {
             <div className="row">
                 <div className="col-sm-4" ></div>
                 <div className="col-sm-4 col-offset-4">
-                    <label htmlFor="">Price: </label>
+                    <label >Price: </label>
                     <input type="number" name="price" value={formData.price} onChange={handleChange} className="form-control"/>
                 </div>
             </div>
             <div className="row">
                 <div className="col-sm-4" ></div>
                 <div className="col-sm-4 col-offset-4">
-                    <label htmlFor="">Description: </label>
+                    <label >Description: </label>
                     <input type="text" name="description" value={formData.description} onChange={handleChange} className="form-control"/>
                 </div>
             </div>

@@ -21,22 +21,22 @@ import { useState } from 'react';
 
 function App() {
 
-  const [cart, setCart] = useState(0)
+  const [cart, setCart] = useState([])
 
   return (
     <div className="App"> 
      
      <BrowserRouter>
-     <Navbar cart={cart} cartCount={cart} />
+     <Navbar cart={cart} />
     <Routes> 
-        <Route index setCartP={setCart} element={<Home />} />
+        <Route index element={<Home cart={cart}  setCartP={setCart} />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="books" element={<Index />} />
         <Route path="book/edit/:bookId" element={ <Edit />} />
         <Route path="book/details/:bookId" element={ <Details />} />
         <Route path="book/create" element={<Create />} />
-        <Route path="cart"  element={<Cart />} />
+        <Route path="cart"  element={<Cart cart={cart} />} />
 
 
         <Route path="dashboard" element={<Dashboard />} />

@@ -4,12 +4,27 @@ import { Link } from "react-router-dom";
 
 function Home( {setCartP, ...props} ) {
     const [loading, setLoading] = useState(false)
+    const [exist, setExist] = useState(false)
     const [books, setBooks] = useState([])
 
-    function addToCart(){
-        let count = props.cart + 1
-        setCartP(count)
-      }
+    function addToCart(e){
+        let book = books[e.target.getAttribute("data-info")]
+        let cart = props.cart
+
+        const found = cart.find(obj => {
+            return obj.id === book.id;
+        })
+
+        if(!found){  
+            let newArray = props.cart.concat([book])
+            setCartP(newArray)  
+        } else {
+            setExist(true)
+            setTimeout(() => {
+                setExist(false)
+            }, 2000)
+        }
+    }
 
     useEffect(()=> {
         getBookList()
@@ -18,8 +33,7 @@ function Home( {setCartP, ...props} ) {
     function getBookList(){
         setLoading(true)
 
-        axios.get("http://localhost:8080/books").then(response => {
-            console.log(response.data)
+        axios.get("http://localhost:8080/books").then(response => { 
             setBooks(response.data)
             setLoading(false)
         })
@@ -27,7 +41,8 @@ function Home( {setCartP, ...props} ) {
     
     return (
         <div className="container">
-            <center>{ loading ? "loading...." : '' }</center>
+            { loading ? <center className="alert alert-success"> loading....</center> : '' }
+            { exist ? <center className="alert alert-warning">item already in cart </center> : '' }
             <div className="container-fluid bg-trasparent my-4 p-3" >
                 <div className="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
                     {
@@ -54,7 +69,7 @@ function Home( {setCartP, ...props} ) {
             
                                     <div className="d-grid gap-2 my-4">
             
-                                        <a href="#" onClick={addToCart} className="btn btn-warning bold-btn">add to cart</a>
+                                        <a href="#" data-info={`${index}`} onClick={addToCart} className="btn btn-warning bold-btn">add to cart</a>
             
                                     </div>
                                     <div className="clearfix mb-1">
@@ -72,8 +87,6 @@ function Home( {setCartP, ...props} ) {
                             )
                         })
                     }
-                   
-                    
                 </div>
                 </div>
 
