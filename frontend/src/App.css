@@ -527,3 +527,10 @@
   -moz-background-clip: text;
   -moz-text-fill-color: transparent;
 }
+
+.btn-xs { 
+  padding: 5px;
+    height: 25px;
+    font-size: 12px;
+    padding-top: 2px;
+}

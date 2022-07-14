@@ -1,11 +1,13 @@
 import axios from "axios";
 import {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
+import { useCookies } from 'react-cookie';
 
 function Home( {setCartP, ...props} ) {
     const [loading, setLoading] = useState(false)
     const [exist, setExist] = useState(false)
     const [books, setBooks] = useState([])
+    const [cookies, setCookie] = useCookies(['user']);
 
     function addToCart(e){
         let book = books[e.target.getAttribute("data-info")]
@@ -18,6 +20,7 @@ function Home( {setCartP, ...props} ) {
         if(!found){  
             let newArray = props.cart.concat([book])
             setCartP(newArray)  
+            setCookie('Cart', newArray, { path: '/' });
         } else {
             setExist(true)
             setTimeout(() => {

@@ -16,12 +16,20 @@ import Login from './login/Login';
 import Register from './login/Register';
 import Dashboard from './dashboard/Dashboard';
 import Cart from './cart/Cart';
-import { useState } from 'react';
-
+import { useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
 
 function App() {
 
   const [cart, setCart] = useState([])
+  const [cookies, setCookie] = useCookies(['user']);
+
+  useEffect(() => {
+    if(cookies && cookies.Cart){
+      setCart( cookies.Cart )
+    }
+    
+  }, [])
 
   return (
     <div className="App"> 
@@ -36,7 +44,7 @@ function App() {
         <Route path="book/edit/:bookId" element={ <Edit />} />
         <Route path="book/details/:bookId" element={ <Details />} />
         <Route path="book/create" element={<Create />} />
-        <Route path="cart"  element={<Cart cart={cart} />} />
+        <Route path="cart"  element={<Cart cart={cart} setCartP={setCart} />} />
 
 
         <Route path="dashboard" element={<Dashboard />} />
