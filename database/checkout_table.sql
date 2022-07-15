@@ -1,0 +1,9 @@
+CREATE TABLE `checkout` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `product_id` int(11) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `price` float NOT NULL,
+  `created_at` varchar(30) NOT NULL,
+  `checkout_id` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

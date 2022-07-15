@@ -15,6 +15,47 @@ function Cart({setCartP, ...props} ) {
         setCookie('Cart', newArray, { path: '/' });
          
     }
+
+    let checkoutOrder = () => { 
+        let datat = props.cart
+        let checkout_id = new Date().getUTCMilliseconds();
+
+        datat = datat.map((data, index) => {
+            return {
+                user_id : 1,
+                product_id : data.id,
+                qty : 1,
+                price : data.price,
+                created_at : new Date().toJSON().split('.')[0].split('T').join(' '),
+                checkout_id : checkout_id
+            }
+        })
+
+        fetch('http://localhost:8080/checkout', {
+            method: 'POST',
+            mode: 'no-cors',
+            json: true,
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datat)
+        }).then(res => {
+            console.log(res);
+            return  res.json();
+        })
+        .then(res => {
+            console.log(res)
+
+            // make empty cart
+            let cart = []
+            setCartP(cart)
+            setCookie('Cart', cart, { path: '/' });
+ 
+        }).catch((e) => {
+             console.log(e)
+        });
+    }
     
     return (
         <div className="container"> 
@@ -60,7 +101,7 @@ function Cart({setCartP, ...props} ) {
                                         <th>{ result }</th>
                                     </tr>
                                     <tr>
-                                        <th colSpan={4} className="text-center"><button className="btn btn-sm btn-success">Checkout</button></th>
+                                        <th colSpan={4} className="text-center"><button onClick={checkoutOrder} className="btn btn-sm btn-success">Checkout</button></th>
                                         
                                     </tr>
                                 </tfoot>

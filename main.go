@@ -18,14 +18,18 @@ func main() {
 	r.Use(func(c *gin.Context) {
 		c.Set("db", db)
 	})
+
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"data": c.Request.Body})
 	})
+
 	r.GET("/books", controllers.BookList)
 	r.POST("/books/store", controllers.CreateBook)
 	r.GET("/book/edit/:id", controllers.FindBook)
 	r.POST("/book/update/:id", controllers.UpdateBook)
 	r.DELETE("book/:id", controllers.DeleteBook)
+
+	r.POST("/checkout", controllers.Checkout)
 
 	r.Run(":8080")
 }
