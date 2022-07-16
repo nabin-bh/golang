@@ -1,59 +1,70 @@
 package controllers
 
 import (
-	"golang/models"
-	"net/http"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
-
-	"log"
-	"os"
 )
 
 type CreateCheckoutInput struct {
-	UserID     uint    `json:"user_id"`
-	ProductId  uint    `json:"product_id"`
-	Qty        float32 `json:"qty"`
-	Price      float32 `json:"price"`
-	CreatedAt  string  `json:"created_at"`
-	CheckoutID string  `json:"checkout_id"`
+	UserID     uint   `json:"user_id"`
+	ProductId  uint   `json:"product_id"`
+	Qty        uint   `json:"qty"`
+	Price      string `json:"price"`
+	CreatedAt  string `json:"created_at"`
+	CheckoutID uint   `json:"checkout_id"`
 }
 
 func Checkout(c *gin.Context) {
-	var input CreateCheckoutInput
 
-	//create your file with desired read/write permissions
-	f, err := os.OpenFile("go.log", os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+	var stock []CreateCheckoutInput
+
+	body, err := ioutil.ReadAll(c.Request.Body)
 	if err != nil {
-		log.Fatal(err)
-	}
-
-	//defer to close when you're done with it, not because you think it's idiomatic!
-	defer f.Close()
-
-	//set output of logs to f
-	log.SetOutput(f)
-
-	//test case
-	log.Println(input)
-
-	if err := c.ShouldBindJSON(&input); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.AbortWithError(400, err)
 		return
 	}
 
-	checkout := models.Checkout{
-		UserID:     input.UserID,
-		ProductId:  input.ProductId,
-		Qty:        input.Qty,
-		Price:      input.Price,
-		CreatedAt:  input.CreatedAt,
-		CheckoutID: input.CheckoutID,
+	err = json.Unmarshal(body, &stock)
+	if err != nil {
+		c.AbortWithError(400, err)
+		return
 	}
 
-	db := c.MustGet("db").(*gorm.DB)
-	db.Create(&checkout)
+	c.String(200, fmt.Sprintf("%#v", stock))
 
-	c.JSON(http.StatusOK, checkout)
+	// checkout := models.Checkout{
+	// 	UserID:     input.UserID,
+	// 	ProductId:  input.ProductId,
+	// 	Qty:        input.Qty,
+	// 	Price:      input.Price,
+	// 	CreatedAt:  input.CreatedAt,
+	// 	CheckoutID: input.CheckoutID,
+	// }
+
+	// db := c.MustGet("db").(*gorm.DB)
+	// db.Create(&checkout)
+
+	// var input CreateCheckoutInput
+	// createCheckoutInput := CreateCheckoutInput{}
+
+	// if err := c.BindJSON(&createCheckoutInput); err != nil {
+	// 	c.AbortWithError(http.StatusBadRequest, err)
+	// 	return
+	// }
+
+	// c.JSON(http.StatusOK, createCheckoutInput)
+	// for key, value := range createCheckoutInput {
+	// 	fmt.Println(key, value)
+
+	// if err := c.ShouldBindJSON(&input); err != nil {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	// 	return
+	// }
+
+	// }
+
+	// c.JSON(http.StatusOK, 200)
 }
