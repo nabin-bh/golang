@@ -5,7 +5,7 @@ function Cart({setCartP, ...props} ) {
     let carts = props.cart
     const [cookies, setCookie] = useCookies(['user']);
     const result = carts.reduce((total, currentValue) => total = parseFloat(total) + parseFloat(currentValue.price),0);
-
+    const [checkoutSuccess, setCheckoutSuccess] = useState(0)
 
     function removeFromCart(e){
         let index = e.target.getAttribute("data-info")
@@ -16,11 +16,12 @@ function Cart({setCartP, ...props} ) {
          
     }
 
-    let checkoutOrder = () => { 
+    let checkoutOrder = ()  => { 
         let datat = props.cart
         let checkout_id = new Date().getUTCMilliseconds();
 
         datat = datat.map((data, index) => {
+
             return {
                 user_id : 1,
                 product_id : data.id,
@@ -31,40 +32,60 @@ function Cart({setCartP, ...props} ) {
             }
         })
 
-        fetch('http://localhost:8080/checkout', {
-            method: 'POST',
-            mode: 'no-cors',
-            json: true,
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(datat)
-        }).then(res => {
-            console.log(res);
-            return  res.json();
-        })
-        .then(res => {
-            console.log(res)
+        datat.forEach(( element, index ) => {
+            let singledata = element
+            fetch('http://localhost:8080/checkout', {
+                method: 'POST',
+                mode: 'no-cors',
+                json: true,
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(singledata)
+            }) 
+            .then(res => {
 
-            // make empty cart
-            let cart = []
-            setCartP(cart)
-            setCookie('Cart', cart, { path: '/' });
- 
-        }).catch((e) => {
-             console.log(e)
-        });
+                console.log(res)
+                console.log("datat.length",datat.length)
+                console.log("index",index)
+                if(datat.length == (index+1)){
+                    
+                    
+                    let cart = []
+                    setCartP(cart)
+                    setCookie('Cart', cart, { path: '/' });
+
+                    setCheckoutSuccess(true)
+
+                    setTimeout(()=> {
+                        setCheckoutSuccess(false)
+                    }, 2000 )
+                }
+
+                // make empty cart
+                
+    
+            }).catch((e) => {
+                console.log(e)
+            });
+        }); 
+
+        
     }
     
     return (
         <div className="container"> 
             <div className="container-fluid bg-trasparent " >
                 <div className=" ">
-                    <div className="form">
+                    <div className="checkoutBox"> 
+                    { 
+                        checkoutSuccess ? <div className="alert alert-success">Checkout Success !! </div> : ''         
+                    }
+                        
                         <h1>Cart</h1> 
 
-                        <table className="table table-sm table-stripped">
+                        <table className="table table-sm table-striped table">
                             <thead>
                                 <tr>
                                     <th>SN</th>
@@ -99,11 +120,8 @@ function Cart({setCartP, ...props} ) {
                                     <tr>
                                         <th colSpan={3} className="text-center">Total</th>
                                         <th>{ result }</th>
-                                    </tr>
-                                    <tr>
-                                        <th colSpan={4} className="text-center"><button onClick={checkoutOrder} className="btn btn-sm btn-success">Checkout</button></th>
-                                        
-                                    </tr>
+                                        <th><button onClick={checkoutOrder} className="btn btn-sm btn-success">Checkout</button></th>
+                                    </tr> 
                                 </tfoot>
 
                                 : 

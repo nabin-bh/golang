@@ -1,11 +1,11 @@
 package controllers
 
 import (
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
+	"golang/models"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
 )
 
 type CreateCheckoutInput struct {
@@ -19,52 +19,25 @@ type CreateCheckoutInput struct {
 
 func Checkout(c *gin.Context) {
 
-	var stock []CreateCheckoutInput
+	var input CreateCheckoutInput
 
-	body, err := ioutil.ReadAll(c.Request.Body)
-	if err != nil {
-		c.AbortWithError(400, err)
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	c.JSON(http.StatusOK, input)
 
-	err = json.Unmarshal(body, &stock)
-	if err != nil {
-		c.AbortWithError(400, err)
-		return
+	checkout := models.Checkout{
+		UserID:     input.UserID,
+		ProductId:  input.ProductId,
+		Qty:        input.Qty,
+		Price:      input.Price,
+		CreatedAt:  input.CreatedAt,
+		CheckoutID: input.CheckoutID,
 	}
 
-	c.String(200, fmt.Sprintf("%#v", stock))
+	db := c.MustGet("db").(*gorm.DB)
+	db.Create(&checkout)
 
-	// checkout := models.Checkout{
-	// 	UserID:     input.UserID,
-	// 	ProductId:  input.ProductId,
-	// 	Qty:        input.Qty,
-	// 	Price:      input.Price,
-	// 	CreatedAt:  input.CreatedAt,
-	// 	CheckoutID: input.CheckoutID,
-	// }
-
-	// db := c.MustGet("db").(*gorm.DB)
-	// db.Create(&checkout)
-
-	// var input CreateCheckoutInput
-	// createCheckoutInput := CreateCheckoutInput{}
-
-	// if err := c.BindJSON(&createCheckoutInput); err != nil {
-	// 	c.AbortWithError(http.StatusBadRequest, err)
-	// 	return
-	// }
-
-	// c.JSON(http.StatusOK, createCheckoutInput)
-	// for key, value := range createCheckoutInput {
-	// 	fmt.Println(key, value)
-
-	// if err := c.ShouldBindJSON(&input); err != nil {
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	// 	return
-	// }
-
-	// }
-
-	// c.JSON(http.StatusOK, 200)
+	c.JSON(http.StatusOK, checkout)
 }
