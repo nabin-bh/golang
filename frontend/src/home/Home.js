@@ -72,7 +72,7 @@ function Home( {setCartP, ...props} ) {
             
                                     <div className="d-grid gap-2 my-4">
             
-                                        <a href="#" data-info={`${index}`} onClick={addToCart} className="btn btn-warning bold-btn">add to cart</a>
+                                        <button  data-info={`${index}`} onClick={addToCart} className="btn btn-warning bold-btn">add to cart</button>
             
                                     </div>
                                     <div className="clearfix mb-1">

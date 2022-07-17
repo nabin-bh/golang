@@ -28,7 +28,7 @@ type UpdateBookInput struct {
 func BookList(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	var tasks []models.Book
-	db.Find(&tasks)
+	db.Order("name asc").Find(&tasks)
 	c.JSON(http.StatusOK, tasks)
 }
 

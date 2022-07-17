@@ -1,13 +1,24 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 
 export default function Navbar(props) {
+    const [animate, setAnimate] = useState(false)
+
+    useEffect(() => {
+        setAnimate(true) 
+        setTimeout(() => {
+            setAnimate(false) 
+        }, 1000)
+    },[props.cart]) // <-- here put the parameter to listen
+    
     return (
         <div className="nav">
             <input type="checkbox" id="nav-check"/>
             <div className="nav-header">
-                <div className="nav-title gradient-text">
-                Book Pasal
+                <div className="nav-title ">
+                    <span className="logo-name">
+                    <span className="logo-book gradient-text">&nbsp;Book</span> <span className="logo-pasal">&nbsp;Pasal&nbsp; </span>
+                    </span>
                 </div>
             </div>
             
@@ -24,9 +35,9 @@ export default function Navbar(props) {
                 <Link to="/books">Book</Link> 
                 <a href="" target="_blank">Category</a> 
                 <Link to="/login">Login</Link> 
-                <Link to="/register">Register</Link>  
+                <Link to="/register">Register</Link>
 
-                <Link to="/cart" className="float-end">Cart <span className="badge bg-primary">{props.cart.length}</span></Link>  
+                <Link to="/cart" className="float-end">Cart <span className={`badge bg-gradient ${animate ? 'bounce' : ''} `}>{props.cart.length}</span></Link>  
             </div>
         </div>
     )

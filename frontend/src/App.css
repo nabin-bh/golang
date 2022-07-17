@@ -47,10 +47,13 @@
 
 .nav {
   height: 50px;
-  width: 100%;
-  background-color: #4d4d4d;
-  position: relative;
-  margin-bottom: 10px;
+    width: 100%;
+    background-color: #4d4d4d;
+    position: fixed;
+    margin-bottom: 8px;
+    top: 0;
+    z-index: 1;
+    box-shadow: 0px 2px 7px #82532b;
 }
 
 .nav > .nav-header {
@@ -61,7 +64,7 @@
   display: inline-block;
   font-size: 22px;
   color: #fff;
-  padding: 10px 10px 10px 10px;
+  padding: 10px 10px 10px 126px;
 }
 
 .nav > .nav-btn {
@@ -544,4 +547,31 @@
   padding: 45px;
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.container {
+  margin-top: 70px;
+}
+
+.logo-name{
+  border: 1px solid #ffb1132e;
+    padding: 2px;
+}
+
+.logo-pasal{
+  background: linear-gradient(#d89e04a3, #fa731c9e);
+}
+
+.bounce{
+  /* font-size: 0.85em; */
+  background: linear-gradient(#d89e04a3, #fa731c9e) !important;
+  transition: 1s;
+}
+
+/* .bounce::after{
+  font-size: 1em;
+  transition: 0.3s;
+} */
+.bg-gradient{
+  background: linear-gradient(#d8cd04a3, #e760079e) ;
 }
