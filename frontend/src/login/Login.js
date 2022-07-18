@@ -1,7 +1,6 @@
 import axios from "axios";
 import {useEffect, useState} from "react";  
-import { auth, logInWithEmailAndPassword, signInWithGoogle } from "../shared/Firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { useCookies } from 'react-cookie';
 import { Link } from "react-router-dom";
 
 function Login() {
@@ -12,7 +11,8 @@ function Login() {
     })
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [user, loading, error] = useAuthState(auth);
+    const [message, setMessage] = useState("");
+    const [cookie, setCookie] = useCookies(['login']);
 
     const handleChange = e => {
         setLoginAuth({
@@ -21,9 +21,40 @@ function Login() {
         }) 
       }
 
+      function handleLogin(){
+        let login_data = { 
+            "email" : email,
+            "password" : password
+        }
+        console.log(login_data)
+
+       axios.post('http://localhost:8080/api/token', login_data).then((res) => {
+
+            console.log(res)
+            setCookie('Auth', res.data, { path: '/' });
+
+            setMessage("login success !")
+
+            setTimeout(()=> {
+                setMessage("")
+            }, 2000)
+
+       }).catch(error => {
+        if(error.response.data.error){
+            setMessage(error.response.data.error)
+
+            setTimeout(()=> {
+                setMessage("")
+            }, 2000)
+        }
+       
+        console.log(error.response.data.error)
+       })
+    }
+
     return (
         <div className="container">
-            {/* <center>{ loading ? "loading...." : '' }</center> */}
+            <center>{ message ? <div className="alert alert-warning">{message}</div> : '' }</center>
             
             <div className="container-fluid bg-trasparent my-4 p-3" >
                 <div className="login-page">
@@ -31,14 +62,14 @@ function Login() {
                         <h1>Login</h1> 
                         <div className="login-form">
                             <input type="enail" placeholder="Email"  value={email} onChange={(e) => setEmail(e.target.value)}/>
-                            <input type="password" placeholder="password" value={password} onChange={(e) => {console.log(e.target.value); return setPassword(e.target.value)}}/>
+                            <input type="password" placeholder="password" value={password} onChange={(e) => { return setPassword(e.target.value)}}/>
 
-                            <button type="button" className="login_btn" onClick={() => logInWithEmailAndPassword(email, password)}>login</button>
+                            <button type="button" className="login_btn" onClick={handleLogin}>login</button>
                             
                             <br/>
                             <br/>
 
-                            <button type="button" onClick={signInWithGoogle} className="login-with-google-btn" > Sign in with Google</button>
+                            <button type="button"  className="login-with-google-btn" > Sign in with Google</button>
                             <p className="message">Not registered?  <Link to="/register">Register</Link>  </p>
                         </div>
                     </div>

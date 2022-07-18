@@ -4,7 +4,7 @@ import Index from "./book/Index";
 import Home from "./home/Home";
 import Navbar from './shared/Navbar';
 import Create from './book/Create';
-
+import Error from './shared/Error';
 import {
   BrowserRouter,
   Routes,
@@ -31,6 +31,8 @@ function App() {
     
   }, [])
 
+  
+
   return (
     <div className="App"> 
      
@@ -46,8 +48,14 @@ function App() {
         <Route path="book/create" element={<Create />} />
         <Route path="cart"  element={<Cart cart={cart} setCartP={setCart} />} />
 
+        <Route path="error"  element={<Error />} />
 
-        <Route path="dashboard" element={<Dashboard />} />
+
+        <Route path="dashboard" element={
+            <ProtectedRoute user={user}>
+              <Dashboard />
+            </ProtectedRoute>
+        } />
     </Routes>
   </BrowserRouter>
       {/*
@@ -62,3 +70,11 @@ function App() {
 }
 
 export default App;
+
+const ProtectedRoute = ({ user, redirectPath = '/error' }) => {
+  if (!user) {
+    return <Navigate to={redirectPath} replace />;
+  }
+
+  return <Outlet />;
+};
