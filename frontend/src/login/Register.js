@@ -1,7 +1,5 @@
 import axios from "axios";
-import {useEffect, useState} from "react";  
-import { auth, registerWithEmailAndPassword, signInWithGoogle } from "../shared/Firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { useState } from "react";   
 import { Link } from "react-router-dom";
 
 function Register() {
@@ -9,23 +7,35 @@ function Register() {
     
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [name, setName] = useState("");
-    const [user, loading, error] = useAuthState(auth);
+    const [name, setName] = useState(""); 
     const [message, setMessage] = useState("");
 
     function handleregister(){
-       let res =  registerWithEmailAndPassword(name, email, password)
-       setMessage(res.message) 
-        if(res.status == 'true'){
-
-        } else {
-
+        let register_data = {
+            "name" : name,
+            "username" : name,
+            "email" : email,
+            "password" : password
         }
+
+       axios.post('http://localhost:8080/api/user/register', register_data).then((res) => {
+            console.log(res)
+       }).catch(error => {
+        if(error.response.data.error){
+            setMessage(error.response.data.error)
+
+            setTimeout(()=> {
+                setMessage("")
+            }, 2000)
+        }
+       
+        console.log(error.response.data.error)
+       })
     }
 
     return (
         <div className="container">
-            <center>{ message ? message : '' }</center>
+            <center>{ message ? <div className="alert alert-warning">{message}</div> : '' }</center>
             
             <div className="container-fluid bg-trasparent my-4 p-3" >
             <div className="login-page">
