@@ -4,6 +4,8 @@ import (
 	"net/http"
 
 	"golang/controllers"
+	"golang/database"
+	"golang/middlewares"
 	"golang/models"
 
 	"github.com/gin-contrib/cors"
@@ -11,6 +13,10 @@ import (
 )
 
 func main() {
+	// Initialize Database
+	database.Connect("root:root@tcp(localhost:8889)/book_pasal?parseTime=true")
+	database.Migrate()
+
 	r := gin.Default()
 	r.Use(cors.Default())
 	db := models.SetupDB()
@@ -30,6 +36,16 @@ func main() {
 	r.DELETE("book/:id", controllers.DeleteBook)
 
 	r.POST("/checkout", controllers.Checkout)
+
+	api := r.Group("/api")
+	{
+		api.POST("/token", controllers.GenerateToken)
+		api.POST("/user/register", controllers.RegisterUser)
+		secured := api.Group("/secured").Use(middlewares.Auth())
+		{
+			secured.GET("/ping", controllers.Ping)
+		}
+	}
 
 	r.Run(":8080")
 }
