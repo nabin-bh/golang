@@ -40,7 +40,7 @@ function App() {
     
   }, [])
 
-  function getAuthByToken(){
+  async function getAuthByToken(){
     if(cookies.Auth){
       console.log(cookies.Auth.token)
       const headers = {
@@ -54,11 +54,20 @@ function App() {
       };
       console.log(axiosConfig)
 
-      axios.post('http://localhost:8080/api/secured/getauthuser',{name: 'cc'},axiosConfig).then((res)=>{
-        console.log(res.data)
-      }).catch((err) => {
-        console.error(err)
-      })
+      await fetch('http://localhost:8080/api/secured/getauthuser', {
+            method: 'POST',
+            mode: 'no-cors',
+            json: true,
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                'Content-Type': 'application/json',
+                'Authorization':  `${cookies.Auth.token}`,
+            },
+            // body: JSON.stringify(datat)
+        }).then(res => {
+            console.log("dsfsdf",res);
+            return  res.json();
+        })
     }
   }
 

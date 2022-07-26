@@ -40,6 +40,7 @@ func RegisterUser(context *gin.Context) {
 
 func GetAuthUser(c *gin.Context) {
 	var user models.User
+	println(c.Param("id"))
 	db := c.MustGet("db").(*gorm.DB)
 	if err := db.Where("id = ?", c.Param("id")).First(&user).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
