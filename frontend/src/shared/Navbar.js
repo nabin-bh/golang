@@ -42,7 +42,7 @@ export default function Navbar(props) {
                         <Link to="/register">Register</Link>
                         </>
                     ) 
-                    : 'user'
+                    : <Link to="/dashboard">user</Link>
                 }
                
 

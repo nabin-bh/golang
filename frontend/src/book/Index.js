@@ -50,7 +50,7 @@ function Index() {
     return (
         <div className="container">
             <center>{ loading ? "loading...." : '' }</center>
-            <h1> Book List <Link to="/book/create" className="btn btn-sm btn-primary">Create Book</Link>   </h1>
+            <h1> Book List <Link to="/book/create" className="btn btn-sm btn-secondary book-create-btn">Create Book</Link>   </h1>
             <div className="row">
                  <div className="col-sm-12">
                     <table className="table table-sm table-stripped">

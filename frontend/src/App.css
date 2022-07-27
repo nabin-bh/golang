@@ -575,3 +575,8 @@
 .bg-gradient{
   background: linear-gradient(#d8cd04a3, #e760079e) ;
 }
+
+.book-create-btn{
+  float: right;
+  margin-right: 150px;
+}
