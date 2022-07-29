@@ -45,7 +45,6 @@ function App() {
       console.log(cookies.Auth.token)
       const headers = {
         'Content-Type': 'application/json',
-        
       }
       let axiosConfig = {
         headers: {  
@@ -61,10 +60,7 @@ function App() {
         console.error(err)
       })
     }
-      
   }
-
-  
 
   return (
     <div className="App"> 
@@ -82,7 +78,6 @@ function App() {
         <Route path="cart"  element={<Cart cart={cart} setCartP={setCart} />} />
 
         <Route path="error"  element={<Error />} />
-
 
         <Route path="dashboard" element={
             <ProtectedRoute user={auth}>
