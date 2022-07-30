@@ -43,6 +43,7 @@ func main() {
 		api.POST("/user/register", controllers.RegisterUser)
 		secured := api.Group("/secured").Use(middlewares.Auth())
 		{
+			secured.POST("/getauthuser", controllers.GetAuthUser)
 			secured.GET("/ping", controllers.Ping)
 		}
 	}

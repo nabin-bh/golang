@@ -34,8 +34,17 @@ export default function Navbar(props) {
                 <Link to="/">Home</Link>
                 <Link to="/books">Book</Link> 
                 <a href="" target="_blank">Category</a> 
-                <Link to="/login">Login</Link> 
-                <Link to="/register">Register</Link>
+                {
+                    props.auth ? 
+                    (
+                        <>
+                        <Link to="/login">Login</Link> 
+                        <Link to="/register">Register</Link>
+                        </>
+                    ) 
+                    : 'user'
+                }
+               
 
                 <Link to="/cart" className="float-end">Cart <span className={`badge bg-gradient ${animate ? 'bounce' : ''} `}>{props.cart.length}</span></Link>  
             </div>

@@ -9,6 +9,7 @@ import {
   BrowserRouter,
   Routes,
   Route,
+  Navigate
 } from "react-router-dom";
 import Edit from './book/Edit';
 import Details from './home/Details';
@@ -18,18 +19,50 @@ import Dashboard from './dashboard/Dashboard';
 import Cart from './cart/Cart';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
+import axios from 'axios';
 
 function App() {
 
   const [cart, setCart] = useState([])
+  const [auth, setAuth] = useState()
   const [cookies, setCookie] = useCookies(['user']);
 
   useEffect(() => {
     if(cookies && cookies.Cart){
       setCart( cookies.Cart )
     }
+
+    if(cookies && cookies.Auth){
+      setAuth( cookies.Auth )
+    }
+
+    getAuthByToken()
     
   }, [])
+
+  function getAuthByToken(){
+    if(cookies.Auth){
+      console.log(cookies.Auth.token)
+      const headers = {
+        'Content-Type': 'application/json',
+        
+      }
+      let axiosConfig = {
+        headers: {  
+          'Content-Type': 'application/json',
+          'Authorization':  `${cookies.Auth.token}`,
+        }
+      };
+      console.log(axiosConfig)
+
+      axios.post('http://localhost:8080/api/secured/getauthuser',{name: 'cc'},axiosConfig).then((res)=>{
+        console.log(res.data)
+      }).catch((err) => {
+        console.error(err)
+      })
+    }
+      
+  }
 
   
 
@@ -37,7 +70,7 @@ function App() {
     <div className="App"> 
      
      <BrowserRouter>
-     <Navbar cart={cart} />
+     <Navbar cart={cart} auth={auth} />
     <Routes> 
         <Route index element={<Home cart={cart}  setCartP={setCart} />} />
         <Route path="login" element={<Login />} />
@@ -52,29 +85,23 @@ function App() {
 
 
         <Route path="dashboard" element={
-            <ProtectedRoute user={user}>
+            <ProtectedRoute user={auth}>
               <Dashboard />
             </ProtectedRoute>
         } />
     </Routes>
-  </BrowserRouter>
-      {/*
-      <h3 align="center">Create New Book</h3>
-      <Create />
-      <hr/>
-      <h3 align="center">Book List</h3>
-      <Index />
-      */}
+  </BrowserRouter> 
     </div>
   );
 }
 
 export default App;
 
-const ProtectedRoute = ({ user, redirectPath = '/error' }) => {
-  if (!user) {
-    return <Navigate to={redirectPath} replace />;
-  }
+const ProtectedRoute = ({ user, children }) => {
 
-  return <Outlet />;
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  return children;
 };
