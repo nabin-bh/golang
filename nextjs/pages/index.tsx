@@ -3,7 +3,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { useState } from 'react'
 import styles from '../styles/Home.module.css'
-import { useQuery } from 'react-query' 
+import { useQuery } from 'react-query'
 
 const Home: NextPage = () => {
   const [books, setBooks] = useState([
@@ -15,14 +15,14 @@ const Home: NextPage = () => {
       id: 3
     }, {
       id: 4
-    },{
+    }, {
       id: 5
     }
   ])
 
   const { isLoading, error, data } = useQuery(['repoData'], () =>
     fetch('http://localhost:8080/books').then(res =>
-       res.json()
+      res.json()
     ).then((data) => {
       console.log(data)
       setBooks(data)
@@ -30,9 +30,9 @@ const Home: NextPage = () => {
   )
 
   if (isLoading) return 'Loading...'
- 
-   if (error) return 'An error has occurred: ' + error.message
- 
+
+  if (error) return 'An error has occurred: ' + error.message
+
 
 
   return (
@@ -55,16 +55,16 @@ const Home: NextPage = () => {
 
         <div className={styles.grid}>
           {
-            books.map(( book, index ) => {
+            books.map((book, index) => {
               return (
                 <a href="https://nextjs.org/docs" className={styles.card}>
                   <h2> {book.name} &rarr;</h2>
-                  <p>{ book.description }</p>
+                  <p>{book.description}</p>
                 </a>
               )
             })
           }
-          
+
           {/* <a href="https://nextjs.org/learn" className={styles.card}>
             <h2>Learn &rarr;</h2>
             <p>Learn about Next.js in an interactive course with quizzes!</p>
