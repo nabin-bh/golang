@@ -1,4 +1,4 @@
-package golang
+package main
 
 func Add(x, y int) int {
 
