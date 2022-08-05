@@ -1,8 +1,8 @@
 
 function Dashboard() {
-    
+
     return (
-        <div className="container"> 
+        <div className="container">
             <div className="container-fluid bg-trasparent my-4 p-3" >
                 <h1>Dashboard</h1>
             </div>

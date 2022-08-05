@@ -1,4 +1,4 @@
- 
+
 import { initializeApp } from "firebase/app";
 import {
   GoogleAuthProvider,
@@ -20,13 +20,13 @@ import {
 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDmWN0mgPuFU_9amCkgEVUVS73OMsEuuG0",
-    authDomain: "book-pasal.firebaseapp.com",
-    projectId: "book-pasal",
-    storageBucket: "book-pasal.appspot.com",
-    messagingSenderId: "135785493617",
-    appId: "1:135785493617:web:7f338515584edd748097d0",
-    measurementId: "G-ZCNQY9QEXR"
+  apiKey: "AIzaSyDmWN0mgPuFU_9amCkgEVUVS73OMsEuuG0",
+  authDomain: "book-pasal.firebaseapp.com",
+  projectId: "book-pasal",
+  storageBucket: "book-pasal.appspot.com",
+  messagingSenderId: "135785493617",
+  appId: "1:135785493617:web:7f338515584edd748097d0",
+  measurementId: "G-ZCNQY9QEXR"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -74,14 +74,14 @@ const registerWithEmailAndPassword = async (name, email, password) => {
     });
 
     return {
-        status : 'success',
-        message : "Register Success !!"
+      status: 'success',
+      message: "Register Success !!"
     };
-  } catch (err) { 
+  } catch (err) {
 
     return {
-        status : 'erorr',
-        message : err.message
+      status: 'erorr',
+      message: err.message
     }
   }
 };
