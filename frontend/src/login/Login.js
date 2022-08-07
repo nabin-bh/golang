@@ -26,7 +26,6 @@ function Login() {
             "email": email,
             "password": password
         }
-        console.log(login_data)
 
         axios.post('http://localhost:8080/api/token', login_data).then((res) => {
 
@@ -49,7 +48,7 @@ function Login() {
                 }, 2000)
             }
 
-            console.log(error.response.data.error)
+            console.error(error.response.data.error)
         })
     }
 

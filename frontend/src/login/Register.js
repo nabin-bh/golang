@@ -19,7 +19,6 @@ function Register() {
         }
 
         axios.post('http://localhost:8080/api/user/register', register_data).then((res) => {
-            console.log(res)
         }).catch(error => {
             if (error.response.data.error) {
                 setMessage(error.response.data.error)
@@ -29,7 +28,7 @@ function Register() {
                 }, 2000)
             }
 
-            console.log(error.response.data.error)
+            console.error(error.response.data.error)
         })
     }
 
