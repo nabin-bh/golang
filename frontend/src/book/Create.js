@@ -1,23 +1,23 @@
-import {useState} from "react"; 
+import { useState } from "react";
 
 function Create() {
     const [loading, setLoading] = useState(false)
     const [formData, setFormData] = useState({
-        name : "",
-        category : "",
-        author : "",
-        price : 0.00,
-        description : ""
+        name: "",
+        category: "",
+        author: "",
+        price: 0.00,
+        description: ""
     })
 
     const handleChange = e => {
         setFormData({
-          ...formData,
-          [e.target.name]: e.target.value,
+            ...formData,
+            [e.target.name]: e.target.value,
         })
 
         console.log(formData)
-      }
+    }
 
 
     let saveBook = () => {
@@ -35,33 +35,33 @@ function Create() {
             body: JSON.stringify(datat)
         }).then(res => {
             console.log(res);
-            return  res.json();
+            return res.json();
         })
-        .then(res => {
-            console.log(res)
-            setFormData({
-                name : "",
-                category : "",
-                author : "",
-                price : 0.00,
-                description : ""
-            })
+            .then(res => {
+                console.log(res)
+                setFormData({
+                    name: "",
+                    category: "",
+                    author: "",
+                    price: 0.00,
+                    description: ""
+                })
 
-            setLoading(false)
+                setLoading(false)
             }).catch(() => {
-            setLoading(false)
-        });
+                setLoading(false)
+            });
 
     }
     return (
         <div className="container">
-            <center>{ loading ? "loading...." : '' }</center>
+            <center>{loading ? "loading...." : ''}</center>
             <h1 align="center">Create Book</h1>
             <div className="row">
                 <div className="col-sm-4" ></div>
                 <div className="col-sm-4 col-offset-4">
                     <label >Name: </label>
-                    <input type="text" name="name" value={formData.name} className="form-control" onInput={handleChange}/>
+                    <input type="text" name="name" value={formData.name} className="form-control" onInput={handleChange} />
                 </div>
             </div>
             <div className="row">
@@ -81,7 +81,7 @@ function Create() {
                 <div className="col-sm-4" ></div>
                 <div className="col-sm-4 col-offset-4">
                     <label >Author: </label>
-                    <input type="text" name="author" value={formData.author} onChange={handleChange} className="form-control"/>
+                    <input type="text" name="author" value={formData.author} onChange={handleChange} className="form-control" />
                 </div>
             </div>
 
@@ -89,21 +89,21 @@ function Create() {
                 <div className="col-sm-4" ></div>
                 <div className="col-sm-4 col-offset-4">
                     <label >Price: </label>
-                    <input type="number" name="price" value={formData.price} onChange={handleChange} className="form-control"/>
+                    <input type="number" name="price" value={formData.price} onChange={handleChange} className="form-control" />
                 </div>
             </div>
             <div className="row">
                 <div className="col-sm-4" ></div>
                 <div className="col-sm-4 col-offset-4">
                     <label >Description: </label>
-                    <input type="text" name="description" value={formData.description} onChange={handleChange} className="form-control"/>
+                    <input type="text" name="description" value={formData.description} onChange={handleChange} className="form-control" />
                 </div>
             </div>
             <div className="row">
                 <div className="col-sm-4" ></div>
                 <div className="col-sm-4 col-offset-4">
-                    <br/>
-                    <button className="btn btn-success" onClick={() => saveBook() }>Save Book</button>
+                    <br />
+                    <button className="btn btn-success" onClick={() => saveBook()}>Save Book</button>
                 </div>
             </div>
         </div>
