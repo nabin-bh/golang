@@ -21,3 +21,7 @@ func TestBookList(t *testing.T) {
 func TestCreateBook(t *testing.T) {
 	// controllers.CreateBook
 }
+
+func TestFindBook(t *testing.T) {
+	// controllers.FindBook
+}
