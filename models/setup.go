@@ -8,12 +8,8 @@ import (
 )
 
 // SetupDB : initializing mysql database
-func SetupDB() *gorm.DB {
-	USER := "root" 
-	HOST := "localhost"
-	PORT := "3306"
-	DBNAME := "book_pasal"
-	URL := fmt.Sprintf("%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", USER, HOST, PORT, DBNAME)
+func SetupDB() *gorm.DB { 
+	URL := fmt.Sprintf("root@tcp(localhost)/book_pasal?parseTime=true")
 	db, err := gorm.Open("mysql", URL)
 	if err != nil {
 		panic(err.Error())

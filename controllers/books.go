@@ -50,7 +50,7 @@ func CreateBook(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	db.Create(&book)
 
-	c.JSON(http.StatusOK, book)
+	c.JSON(http.StatusCreated, book)
 }
 
 func FindBook(c *gin.Context) { // Get model if exist
