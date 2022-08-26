@@ -59,9 +59,15 @@ func TestCreateBook(t *testing.T) {
     assert.Equal(t, http.StatusCreated, w.Code)
 }
 
-// func TestFindBook(t *testing.T) {
-// 	// controllers.FindBook
-// }
+func TestFindBook(t *testing.T) {
+	r := SetUpRouter()
+    r.GET("/book/edit/:id", controllers.BookList) 
+    req, _ := http.NewRequest("GET", "/book/edit/1", nil)
+
+    w := httptest.NewRecorder()
+    r.ServeHTTP(w, req)
+    assert.Equal(t, http.StatusOK, w.Code)
+}
 
 // func TestUpdateBook(t *testing.T) {
 // 	// controllers.UpdateBook
