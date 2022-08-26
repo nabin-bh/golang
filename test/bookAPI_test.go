@@ -61,7 +61,7 @@ func TestCreateBook(t *testing.T) {
 
 func TestFindBook(t *testing.T) {
 	r := SetUpRouter()
-    r.GET("/book/edit/:id", controllers.BookList) 
+    r.GET("/book/edit/:id", controllers.FindBook) 
     req, _ := http.NewRequest("GET", "/book/edit/1", nil)
 
     w := httptest.NewRecorder()
@@ -70,7 +70,22 @@ func TestFindBook(t *testing.T) {
 }
 
 // func TestUpdateBook(t *testing.T) {
-// 	// controllers.UpdateBook
+// 	r := SetUpRouter()
+//     r.POST("/book/update/:id", controllers.CreateBook) 
+//     book := CreateBookInput{
+//         Name: "test book edited",
+//         Category: "1",
+//         Author: "hari",
+// 		Description: "nice book crated from test",
+// 		Price: "1200",
+//     }
+//     jsonValue, _ := json.Marshal(book)
+// 	println(jsonValue)
+//     req, _ := http.NewRequest("POST", "/book/update/1", bytes.NewBuffer(jsonValue))
+
+//     w := httptest.NewRecorder()
+//     r.ServeHTTP(w, req)
+//     assert.Equal(t, http.StatusCreated, w.Code)
 // }
 
 // func TestDeleteBook(t *testing.T) {
