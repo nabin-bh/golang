@@ -69,24 +69,24 @@ func TestFindBook(t *testing.T) {
     assert.Equal(t, http.StatusOK, w.Code)
 }
 
-// func TestUpdateBook(t *testing.T) {
-// 	r := SetUpRouter()
-//     r.POST("/book/update/:id", controllers.CreateBook) 
-//     book := CreateBookInput{
-//         Name: "test book edited",
-//         Category: "1",
-//         Author: "hari",
-// 		Description: "nice book crated from test",
-// 		Price: "1200",
-//     }
-//     jsonValue, _ := json.Marshal(book)
-// 	println(jsonValue)
-//     req, _ := http.NewRequest("POST", "/book/update/1", bytes.NewBuffer(jsonValue))
+func TestUpdateBook(t *testing.T) {
+	r := SetUpRouter()
+    r.POST("/book/update/:id", controllers.UpdateBook) 
+    book := CreateBookInput{
+        Name: "test book edited",
+        Category: "1",
+        Author: "hari",
+		Description: "nice book crated from test",
+		Price: "1200",
+    }
+    jsonValue, _ := json.Marshal(book)
+	println(jsonValue)
+    req, _ := http.NewRequest("POST", "/book/update/1", bytes.NewBuffer(jsonValue))
 
-//     w := httptest.NewRecorder()
-//     r.ServeHTTP(w, req)
-//     assert.Equal(t, http.StatusCreated, w.Code)
-// }
+    w := httptest.NewRecorder()
+    r.ServeHTTP(w, req)
+    assert.Equal(t, http.StatusCreated, w.Code)
+}
 
 // func TestDeleteBook(t *testing.T) {
 // 	// controllers.DeleteBook

@@ -78,7 +78,7 @@ func UpdateBook(c *gin.Context) {
 		return
 	}
 	db.Model(&task).Updates(input)
-	c.JSON(http.StatusOK, task)
+	c.JSON(http.StatusCreated, task)
 }
 
 func DeleteBook(c *gin.Context) {
