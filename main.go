@@ -14,7 +14,7 @@ import (
 
 func main() {
 	// Initialize Database
-	database.Connect("root:root@tcp(localhost:8889)/book_pasal?parseTime=true")
+	database.Connect("root@tcp(localhost)/book_pasal?parseTime=true")
 	database.Migrate()
 
 	r := gin.Default()
