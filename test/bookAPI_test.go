@@ -19,6 +19,7 @@ type CreateBookInput struct {
 	Description string `json:"description"`
 	Price       string `json:"price"`
 }
+
 func SetUpRouter() *gin.Engine{
     router := gin.Default()
 	gin.Default()
