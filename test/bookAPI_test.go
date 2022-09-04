@@ -88,6 +88,12 @@ func TestUpdateBook(t *testing.T) {
     assert.Equal(t, http.StatusCreated, w.Code)
 }
 
-// func TestDeleteBook(t *testing.T) {
-// 	// controllers.DeleteBook
-// }
+func TestDeleteBook(t *testing.T) {
+	r := SetUpRouter()
+    r.DELETE("/book/:id", controllers.FindBook) 
+    req, _ := http.NewRequest("DELETE", "/book/1", nil)
+
+    w := httptest.NewRecorder()
+    r.ServeHTTP(w, req)
+    assert.Equal(t, http.StatusOK, w.Code)
+}
