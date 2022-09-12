@@ -113,7 +113,6 @@ function Cart({ setCartP, ...props }) {
                                 carts.length ?
 
                                     <tfoot>
-
                                         <tr>
                                             <th colSpan={3} className="text-center">Total</th>
                                             <th>{result}</th>
@@ -130,7 +129,6 @@ function Cart({ setCartP, ...props }) {
                                     </tbody>
                             }
                         </table>
-
                     </div>
                 </div>
             </div>

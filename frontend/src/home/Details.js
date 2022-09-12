@@ -68,7 +68,6 @@ function Details() {
 			}).catch(() => {
 				setLoading(false)
 			});
-
 	}
 	return (
 		<div className="container">
@@ -133,15 +132,6 @@ function Details() {
 								<div className="product-name">Variable Product</div>
 								<div className="reviews-counter">
 									<div className="rate">
-										{/* <input type="radio" id="star5" name="rate" value="5"   />
-								    <label for="star5" title="text">5 stars</label>
-								    <input type="radio" id="star4" name="rate" value="4"  />
-								    <label for="star4" title="text">4 stars</label>
-								    <input type="radio" id="star3" name="rate" value="3"  />
-								    <label for="star3" title="text">3 stars</label>
-								    <input type="radio" id="star2" name="rate" value="2" />
-								    <label for="star2" title="text">2 stars</label>
-								    <input type="radio" id="star1" name="rate" value="1" /> */}
 										<label for="star1" title="text">1 star</label>
 									</div>
 									<span>3 Reviews</span>
@@ -172,7 +162,6 @@ function Details() {
 								<label for="size">Quantity</label>
 								<form action="#" className="display-flex">
 									<div className="qtyminus">-</div>
-									{/* <input type="text" name="quantity" value="1" className="qty" /> */}
 									<div className="qtyplus">+</div>
 								</form>
 								<a href="#" className="round-black-btn">Add to Cart</a>
@@ -201,16 +190,6 @@ function Details() {
 									<label>Your rating</label>
 									<div className="reviews-counter">
 										<div className="rate">
-											{/* <input type="radio" id="star5" name="rate" value="5" />
-									    <label for="star5" title="text">5 stars</label>
-									    <input type="radio" id="star4" name="rate" value="4" />
-									    <label for="star4" title="text">4 stars</label>
-									    <input type="radio" id="star3" name="rate" value="3" />
-									    <label for="star3" title="text">3 stars</label>
-									    <input type="radio" id="star2" name="rate" value="2" />
-									    <label for="star2" title="text">2 stars</label>
-									    <input type="radio" id="star1" name="rate" value="1" />
-									    <label for="star1" title="text">1 star</label> */}
 										</div>
 									</div>
 								</div>
@@ -235,7 +214,6 @@ function Details() {
 						</div>
 					</div>
 				</div>
-
 				<div  >Get free icon packs for your next project at <a href="http://iiicons.in/" target="_blank"  >www.iiicons.in</a></div>
 			</div>
 		</div>
