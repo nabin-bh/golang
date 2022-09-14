@@ -10,9 +10,11 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	godotenv.Load(".env")
 	// Initialize Database
 	database.Connect("root@tcp(localhost)/book_pasal?parseTime=true")
 	database.Migrate()
