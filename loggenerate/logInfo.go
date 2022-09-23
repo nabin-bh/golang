@@ -17,5 +17,5 @@ func logInfo() {
 	logger := log.New(file, "Custom Log", log.LstdFlags)
 	logger.Println("I am a new log message")
 	time.Sleep(5 * time.Second)
-	logger.Println("A new log, 5 seconds later")
+	logger.Println("log test")
 }
