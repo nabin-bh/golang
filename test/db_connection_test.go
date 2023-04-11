@@ -6,9 +6,12 @@ import (
 )
 
 func TestDBConnection(t *testing.T) {
+	println("\033[32m")
 	result := models.SetupDB()
 	println("result success")
+
 	println(result)
+
 	// test := "0x1400023bad0"
 
 	// if result != test {
