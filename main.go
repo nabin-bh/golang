@@ -30,6 +30,7 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"data": c.Request.Body})
 	})
 
+	r.POST("/login", controllers.LoginHandler)
 	r.GET("/books", controllers.BookList)
 	r.POST("/books/store", controllers.CreateBook)
 	r.GET("/book/edit/:id", controllers.FindBook)
