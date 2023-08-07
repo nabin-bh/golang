@@ -19,6 +19,8 @@ import Dashboard from './dashboard/Dashboard';
 import Cart from './cart/Cart';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
+import { Provider } from 'react-redux';
+import store from './store';
 import axios from 'axios';
 
 function App() {
@@ -73,28 +75,29 @@ function App() {
 
   return (
     <div className="App">
+      <Provider store={store}>
+        <BrowserRouter>
+          <Navbar cart={cart} auth={auth} />
+          <Routes>
+            <Route index element={<Home cart={cart} setCartP={setCart} />} />
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+            <Route path="books" element={<Index />} />
+            <Route path="book/edit/:bookId" element={<Edit />} />
+            <Route path="book/details/:bookId" element={<Details />} />
+            <Route path="book/create" element={<Create />} />
+            <Route path="cart" element={<Cart cart={cart} setCartP={setCart} />} />
 
-      <BrowserRouter>
-        <Navbar cart={cart} auth={auth} />
-        <Routes>
-          <Route index element={<Home cart={cart} setCartP={setCart} />} />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-          <Route path="books" element={<Index />} />
-          <Route path="book/edit/:bookId" element={<Edit />} />
-          <Route path="book/details/:bookId" element={<Details />} />
-          <Route path="book/create" element={<Create />} />
-          <Route path="cart" element={<Cart cart={cart} setCartP={setCart} />} />
+            <Route path="error" element={<Error />} />
 
-          <Route path="error" element={<Error />} />
-
-          <Route path="dashboard" element={
-            <ProtectedRoute user={auth}>
-              <Dashboard />
-            </ProtectedRoute>
-          } />
-        </Routes>
-      </BrowserRouter>
+            <Route path="dashboard" element={
+              <ProtectedRoute user={auth}>
+                <Dashboard />
+              </ProtectedRoute>
+            } />
+          </Routes>
+        </BrowserRouter>
+      </Provider>
     </div>
   );
 }

@@ -2,15 +2,25 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useCookies } from 'react-cookie';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPosts } from '../redux/bookStore';
 
 function Home({ setCartP, ...props }) {
     const [loading, setLoading] = useState(false)
     const [exist, setExist] = useState(false)
-    const [books, setBooks] = useState([])
     const [cookies, setCookie] = useCookies(['user']);
+    const dispatch = useDispatch();
+    const posts = useSelector(state => state.posts.list);
+    const status = useSelector(state => state.posts.status);
+
+    useEffect(() => {
+        if (status === 'idle') {
+            dispatch(fetchPosts());
+        }
+    }, [dispatch, status]);
 
     function addToCart(e) {
-        let book = books[e.target.getAttribute("data-info")]
+        let book = posts[e.target.getAttribute("data-info")]
         let cart = props.cart
 
         const found = cart.find(obj => {
@@ -29,19 +39,6 @@ function Home({ setCartP, ...props }) {
         }
     }
 
-    useEffect(() => {
-        getBookList()
-    }, [])
-
-    function getBookList() {
-        setLoading(true)
-
-        axios.get("http://localhost:8080/books").then(response => {
-            setBooks(response.data)
-            setLoading(false)
-        })
-    }
-
     return (
         <div className="container">
             {loading ? <center className="alert alert-success"> loading....</center> : ''}
@@ -49,7 +46,7 @@ function Home({ setCartP, ...props }) {
             <div className="container-fluid bg-trasparent my-4 p-3" >
                 <div className="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
                     {
-                        books.map((book, index) => {
+                        posts.map((book, index) => {
                             return (
                                 <div className="col hp" key={book.id}>
                                     <div className="card h-100 shadow-sm">
