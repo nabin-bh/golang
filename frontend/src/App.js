@@ -20,12 +20,18 @@ import Cart from './cart/Cart';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 function App() {
 
   const [cart, setCart] = useState([])
   const [auth, setAuth] = useState()
   const [cookies, setCookie] = useCookies(['user']);
+
+  const client = new ApolloClient({
+    uri: 'YOUR_GRAPHQL_ENDPOINT', // Replace with your GraphQL server URL
+    cache: new InMemoryCache(),
+  });
 
   useEffect(() => {
     if (cookies && cookies.Cart) {
@@ -73,28 +79,29 @@ function App() {
 
   return (
     <div className="App">
+      <ApolloProvider client={client}>
+        <BrowserRouter>
+          <Navbar cart={cart} auth={auth} />
+          <Routes>
+            <Route index element={<Home cart={cart} setCartP={setCart} />} />
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+            <Route path="books" element={<Index />} />
+            <Route path="book/edit/:bookId" element={<Edit />} />
+            <Route path="book/details/:bookId" element={<Details />} />
+            <Route path="book/create" element={<Create />} />
+            <Route path="cart" element={<Cart cart={cart} setCartP={setCart} />} />
 
-      <BrowserRouter>
-        <Navbar cart={cart} auth={auth} />
-        <Routes>
-          <Route index element={<Home cart={cart} setCartP={setCart} />} />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-          <Route path="books" element={<Index />} />
-          <Route path="book/edit/:bookId" element={<Edit />} />
-          <Route path="book/details/:bookId" element={<Details />} />
-          <Route path="book/create" element={<Create />} />
-          <Route path="cart" element={<Cart cart={cart} setCartP={setCart} />} />
+            <Route path="error" element={<Error />} />
 
-          <Route path="error" element={<Error />} />
-
-          <Route path="dashboard" element={
-            <ProtectedRoute user={auth}>
-              <Dashboard />
-            </ProtectedRoute>
-          } />
-        </Routes>
-      </BrowserRouter>
+            <Route path="dashboard" element={
+              <ProtectedRoute user={auth}>
+                <Dashboard />
+              </ProtectedRoute>
+            } />
+          </Routes>
+        </BrowserRouter>
+      </ApolloProvider>,
     </div>
   );
 }

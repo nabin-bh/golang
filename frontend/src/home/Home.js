@@ -2,12 +2,15 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useCookies } from 'react-cookie';
+import { useQuery } from '@apollo/client';
+import { GET_BOOKS } from '../queries'; // I
 
 function Home({ setCartP, ...props }) {
-    const [loading, setLoading] = useState(false)
+    // const [loading, setLoading] = useState(false)
     const [exist, setExist] = useState(false)
     const [books, setBooks] = useState([])
     const [cookies, setCookie] = useCookies(['user']);
+    const { loading, error, data } = useQuery(GET_BOOKS);
 
     function addToCart(e) {
         let book = books[e.target.getAttribute("data-info")]
