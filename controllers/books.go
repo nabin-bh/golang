@@ -25,6 +25,12 @@ type UpdateBookInput struct {
 	Price       string `json:"price"`
 }
 
+// @Summary Get a list of books
+// @Tags books
+// @Accept json
+// @Produce json
+// @Success 200 {array} models.Book
+// @Router /books [get]
 func BookList(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	var tasks []models.Book

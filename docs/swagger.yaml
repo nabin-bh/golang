@@ -1,0 +1,39 @@
+definitions:
+  models.Book:
+    properties:
+      author:
+        type: string
+      category:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      price:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: This is a basic CRUD API documentation with Swagger for Go Gin.
+  title: Your Gin API with Swagger
+  version: "1.0"
+paths:
+  /books:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Book'
+            type: array
+      summary: Get a list of books
+      tags:
+      - books
+swagger: "2.0"

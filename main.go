@@ -44,20 +44,13 @@ func main() {
 	// @Tags books
 	// @Accept json
 	// @Produce json
-	// @Success 200 {array} Item
+	// @Success 200 {array} Book
 	// @Router /books [get]
 	r.GET("/books", controllers.BookList)
 	r.POST("/books/store", controllers.CreateBook)
 	r.GET("/book/edit/:id", controllers.FindBook)
 	r.POST("/book/update/:id", controllers.UpdateBook)
 
-	// @Summary Get a single book by ID
-	// @Tags books
-	// @Accept json
-	// @Produce json
-	// @Param id path int true "Book ID"
-	// @Success 200 {object} Book
-	// @Router /book/{id} [get]
 	r.DELETE("book/:id", controllers.DeleteBook)
 
 	r.POST("/checkout", controllers.Checkout)
