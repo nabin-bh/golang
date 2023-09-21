@@ -36,6 +36,8 @@ func main() {
 	r.POST("/book/update/:id", controllers.UpdateBook)
 	r.DELETE("book/:id", controllers.DeleteBook)
 
+	r.POST("/graphql", controllers.GraphqlHandler)
+
 	r.POST("/checkout", controllers.Checkout)
 
 	api := r.Group("/api")
