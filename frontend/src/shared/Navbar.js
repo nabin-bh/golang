@@ -33,6 +33,7 @@ export default function Navbar(props) {
             <div className="nav-links">
                 <Link to="/">Home</Link>
                 <Link to="/books">Book</Link>
+                <Link to="/graphql">GraphQL</Link>
                 <a href="" target="_blank">Category</a>
                 {
                     props.auth ?
